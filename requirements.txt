@@ -1,0 +1,2 @@
+matplotlib  # plot_results.py
+markdown    # make_pdf.py (also needs headless Chrome)

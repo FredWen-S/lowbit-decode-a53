@@ -1,0 +1,735 @@
+Cmdline: /system/bin/simpleperf record -e cpu-cycles:u,instructions:u -f 2000 -o rec/q5_k_m.data ./llama-bench -m qwen2.5-1.5b-instruct-q5_k_m.gguf -p 0 -n 64 -r 2 -t 8 --poll 0 -lm none -o csv
+Arch: arm64
+Event: cpu-cycles:u (type 0, config 0)
+Samples: 424160
+Event count: 414009569992
+
+Overhead  Symbol
+52.29%    ggml_vec_dot_q5_K_q8_K
+30.20%    ggml_vec_dot_q6_K_q8_K
+12.81%    ggml_graph_compute_thread
+1.74%     ggml_compute_forward_mul_mat
+0.36%     ggml_compute_forward_flash_attn_ext_f16_one_chunk(ggml_compute_params const*, ggml_tensor*, int, int, long, long, float*, long)
+0.27%     quantize_row_q8_K_ref
+0.20%     ggml_vec_swiglu_f32
+0.15%     ggml_vec_dot_f16
+0.15%     @plt
+0.10%     __memcpy
+0.10%     llama_vocab::impl::load(llama_model_loader&, LLM_KV const&)
+0.09%     ggml_compute_forward_add_non_quantized
+0.08%     ggml_barrier
+0.07%     __aarch64_ldadd4_acq_rel
+0.07%     void ggml_compute_forward_rope_flt<float>(ggml_compute_params const*, ggml_tensor*, bool)
+0.07%     __aarch64_ldadd4_relax
+0.05%     ggml_cpu_extra_compute_forward
+0.05%     ggml_is_empty
+0.04%     ggml::cpu::repack::extra_buffer_type::get_tensor_traits(ggml_tensor const*)
+0.04%     std::__ndk1::pair<std::__ndk1::__hash_iterator<std::__ndk1::__hash_node<std::__ndk1::__hash_value_type<std::__ndk1::pair<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >, int>, void*>*>, bool> std::__ndk1::__hash_table<std::__ndk1::__hash_value_type<std::__ndk1::pair<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >, int>, std::__ndk1::__unordered_map_hasher<std::__ndk1::pair<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >, std::__ndk1::__hash_value_type<std::__ndk1::pair<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >, int>, llama_vocab::impl::pair_hash, std::__ndk1::equal_to<std::__ndk1::pair<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > > >, true>, std::__ndk1::__unordered_map_equal<std::__ndk1::pair<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >, std::__ndk1::__hash_value_type<std::__ndk1::pair<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >, int>, std::__ndk1::equal_to<std::__ndk1::pair<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > > >, llama_vocab::impl::pair_hash, true>, std::__ndk1::allocator<std::__ndk1::__hash_value_type<std::__ndk1::pair<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >, int> > >::__emplace_unique_key_args<std::__ndk1::pair<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >, std::__ndk1::pair<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >, int&>(std::__ndk1::pair<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > > const&, std::__ndk1::pair<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >&&, int&)
+0.04%     ggml_compute_forward_rms_norm_mul_fused
+0.03%     std::__ndk1::pair<std::__ndk1::__hash_iterator<std::__ndk1::__hash_node<std::__ndk1::__hash_value_type<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, int>, void*>*>, bool> std::__ndk1::__hash_table<std::__ndk1::__hash_value_type<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, int>, std::__ndk1::__unordered_map_hasher<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::__hash_value_type<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, int>, std::__ndk1::hash<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >, std::__ndk1::equal_to<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >, true>, std::__ndk1::__unordered_map_equal<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::__hash_value_type<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, int>, std::__ndk1::equal_to<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >, std::__ndk1::hash<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >, true>, std::__ndk1::allocator<std::__ndk1::__hash_value_type<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, int> > >::__emplace_unique_key_args<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::piecewise_construct_t const&, std::__ndk1::tuple<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > const&>, std::__ndk1::tuple<> >(std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > const&, std::__ndk1::piecewise_construct_t const&, std::__ndk1::tuple<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > const&>&&, std::__ndk1::tuple<>&&)
+0.03%     llama_vocab::impl::~impl()
+0.03%     __ieee754_expf
+0.03%     void std::__ndk1::__hash_table<std::__ndk1::__hash_value_type<std::__ndk1::pair<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >, int>, std::__ndk1::__unordered_map_hasher<std::__ndk1::pair<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >, std::__ndk1::__hash_value_type<std::__ndk1::pair<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >, int>, llama_vocab::impl::pair_hash, std::__ndk1::equal_to<std::__ndk1::pair<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > > >, true>, std::__ndk1::__unordered_map_equal<std::__ndk1::pair<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >, std::__ndk1::__hash_value_type<std::__ndk1::pair<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >, int>, std::__ndk1::equal_to<std::__ndk1::pair<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > > >, llama_vocab::impl::pair_hash, true>, std::__ndk1::allocator<std::__ndk1::__hash_value_type<std::__ndk1::pair<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >, int> > >::__do_rehash<true>(unsigned long)
+0.03%     ggml_is_contiguous
+0.03%     sincosf
+0.03%     std::__ndk1::__hash_iterator<std::__ndk1::__hash_node<std::__ndk1::__hash_value_type<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, unsigned char>, void*>*> std::__ndk1::__hash_table<std::__ndk1::__hash_value_type<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, unsigned char>, std::__ndk1::__unordered_map_hasher<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::__hash_value_type<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, unsigned char>, std::__ndk1::hash<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >, std::__ndk1::equal_to<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >, true>, std::__ndk1::__unordered_map_equal<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::__hash_value_type<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, unsigned char>, std::__ndk1::equal_to<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >, std::__ndk1::hash<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >, true>, std::__ndk1::allocator<std::__ndk1::__hash_value_type<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, unsigned char> > >::find<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >(std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > const&)
+0.03%     void std::__ndk1::__hash_table<std::__ndk1::__hash_value_type<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, int>, std::__ndk1::__unordered_map_hasher<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::__hash_value_type<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, int>, std::__ndk1::hash<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >, std::__ndk1::equal_to<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >, true>, std::__ndk1::__unordered_map_equal<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::__hash_value_type<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, int>, std::__ndk1::equal_to<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >, std::__ndk1::hash<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >, true>, std::__ndk1::allocator<std::__ndk1::__hash_value_type<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, int> > >::__do_rehash<true>(unsigned long)
+0.02%     gguf_get_arr_str
+0.02%     ggml_compute_forward_flash_attn_ext
+0.02%     std::__ndk1::ostreambuf_iterator<char, std::__ndk1::char_traits<char> > std::__ndk1::__pad_and_output[abi:ne180000]<char, std::__ndk1::char_traits<char> >(std::__ndk1::ostreambuf_iterator<char, std::__ndk1::char_traits<char> >, char const*, char const*, char const*, std::__ndk1::ios_base&, char)
+0.02%     ggml_compute_forward_glu
+0.02%     strlen
+0.02%     ggml_compute_forward_set_rows
+0.02%     std::__ndk1::basic_ostream<char, std::__ndk1::char_traits<char> >& std::__ndk1::__put_character_sequence[abi:ne180000]<char, std::__ndk1::char_traits<char> >(std::__ndk1::basic_ostream<char, std::__ndk1::char_traits<char> >&, char const*, unsigned long)
+0.02%     je_free
+0.02%     std::__ndk1::basic_streambuf<char, std::__ndk1::char_traits<char> >::xsputn(char const*, long)
+0.02%     ggml_cpu_fp32_to_fp16
+0.02%     std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >::push_back(char)
+0.02%     NonPI::MutexLockWithTimeout(pthread_mutex_internal_t*, bool, timespec const*)
+0.02%     ggml_type_size
+0.02%     __powf_finite
+0.01%     je_malloc
+0.01%     std::__ndk1::__murmur2_or_cityhash<unsigned long, 64ul>::operator()[abi:ne180000](void const*, unsigned long) const
+0.01%     llamafile_sgemm
+0.01%     ggml_row_size
+0.01%     replace_all(std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >&, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > const&, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > const&)
+0.01%     ggml_can_repeat
+0.01%     pthread_mutex_unlock
+0.01%     bool std::__ndk1::operator==[abi:ne180000]<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >(std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > const&, char const*)
+0.01%     je_tcache_bin_flush_small
+0.01%     __ieee754_exp2f
+0.01%     __ieee754_logf
+0.01%     fread_unlocked
+0.01%     memset
+0.01%     unicode_cpt_from_utf8(std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > const&, unsigned long&)
+0.01%     ggml_backend_cpu_repack_buffer_type()
+0.01%     memcpy
+0.01%     ggml_graph_plan
+0.01%     arena_dalloc_bin_locked_impl
+0.01%     std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >::append(unsigned long, char)
+0.01%     ggml_are_same_shape
+0.01%     memchr
+0.01%     __log2_finite
+0.01%     std::__ndk1::basic_ostream<char, std::__ndk1::char_traits<char> >::sentry::sentry(std::__ndk1::basic_ostream<char, std::__ndk1::char_traits<char> >&)
+0.01%     ggml_blck_size
+0.01%     [kernel.kallsyms][+ffffff8f81682e3c]
+0.01%     pthread_getspecific
+0.01%     std::__ndk1::basic_ostream<char, std::__ndk1::char_traits<char> >::sentry::~sentry()
+0.01%     ggml_is_contiguous_rows
+0.01%     ggml_rope_yarn_corr_dims
+0.01%     ggml_is_contiguous_1
+0.01%     unicode_cpt_to_utf8(unsigned int)
+0.01%     llama_vocab::impl::token_to_piece(int, char*, int, int, bool) const
+0.01%     ggml_nrows
+0.01%     [kernel.kallsyms][+ffffff8f817b9204]
+0.01%     ggml_compute_forward_add
+0.01%     je_arena_tcache_fill_small
+0.01%     gguf_reader::read(std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >&) const
+0.01%     fread
+0.01%     [linker]soinfo::gnu_lookup(SymbolName&, version_info const*, unsigned int*) const
+0.01%     [kernel.kallsyms][+ffffff8f817007fc]
+0.01%     ggml_backend_cpu_get_extra_buffer_types()
+0.01%     std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >::append(char const*, unsigned long)
+0.00%     free
+0.00%     unicode_cpts_from_utf8(std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > const&)
+0.00%     pthread_mutex_lock
+0.00%     std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >::reserve(unsigned long)
+0.00%     ggml_compute_forward_rope
+0.00%     std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >::resize(unsigned long, char)
+0.00%     gguf_file_reader_callback(void*, void*, unsigned long, unsigned long)
+0.00%     __svfscanf
+0.00%     gguf_kv_to_str(gguf_context const*, int)
+0.00%     quantize_row_q8_K
+0.00%     llama_decode_text(std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > const&)
+0.00%     ggml_compute_forward_mul_mat_tiled
+0.00%     void std::__ndk1::vector<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::allocator<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > > >::__assign_with_size[abi:ne180000]<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >*, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >*>(std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >*, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >*, long)
+0.00%     [kernel.kallsyms][+ffffff8f8249b3d8]
+0.00%     __vfprintf
+0.00%     ggml_get_type_traits
+0.00%     std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >::append(std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > const&, unsigned long, unsigned long)
+0.00%     ggml_get_type_traits_cpu
+0.00%     [kernel.kallsyms][+ffffff8f817007e0]
+0.00%     ggml_backend_sched_split_graph
+0.00%     malloc
+0.00%     [kernel.kallsyms][+ffffff8f8249b3d0]
+0.00%     [linker]bool soinfo::relocate<plain_reloc_iterator>(VersionTracker const&, plain_reloc_iterator&&, LinkedList<soinfo, SoinfoListAllocator> const&, LinkedList<soinfo, SoinfoListAllocator> const&)
+0.00%     bool gguf_read_emplace_helper<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >(gguf_reader const&, std::__ndk1::vector<gguf_kv, std::__ndk1::allocator<gguf_kv> >&, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > const&, bool, unsigned long)
+0.00%     ggml_is_numa
+0.00%     ggml_cpu_extra_work_size
+0.00%     std::__ndk1::basic_stringbuf<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >::str() const
+0.00%     ggml_cpu_init
+0.00%     operator new(unsigned long)
+0.00%     unicode_utf8_to_byte(std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > const&)
+0.00%     llama_kv_cache::prepare(std::__ndk1::vector<llama_ubatch, std::__ndk1::allocator<llama_ubatch> > const&)
+0.00%     pthread_mutex_trylock
+0.00%     unicode_cpt_flags_array()
+0.00%     ggml_graph_compute_secondary_thread
+0.00%     [kernel.kallsyms][+ffffff8f81683354]
+0.00%     ggml_visit_parents_graph
+0.00%     llama_vocab::impl::token_to_piece_for_cache(int, bool) const
+0.00%     llama_vocab::impl::token_to_piece(int, char*, int, int, bool) const::$_0::operator()(char const*, unsigned long) const
+0.00%     ggml_get_glu_op
+0.00%     ggml_new_tensor_impl
+0.00%     std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >::find(char, unsigned long) const
+0.00%     bool gguf_reader::read<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >(std::__ndk1::vector<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::allocator<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > > >&, unsigned long) const
+0.00%     __sfvwrite
+0.00%     [kernel.kallsyms][+ffffff8f8249b3ec]
+0.00%     llama_batch_allocr::clear()
+0.00%     std::__ndk1::vector<gguf_kv, std::__ndk1::allocator<gguf_kv> >::__base_destruct_at_end[abi:ne180000](gguf_kv*)
+0.00%     ggml_gallocr_reserve_n_impl
+0.00%     llama_batch_allocr::init(llama_batch_ext const&, llama_vocab const&, bool)
+0.00%     [kernel.kallsyms][+ffffff8f81785f70]
+0.00%     bool gguf_reader::read<int>(std::__ndk1::vector<int, std::__ndk1::allocator<int> >&, unsigned long) const
+0.00%     extent_recycle
+0.00%     arena_choose
+0.00%     long StrToI<long, -9223372036854775808l, 9223372036854775807l>(char const*, char**, int)
+0.00%     llama_kv_cache::seq_pos_max(int) const
+0.00%     dequantize_row_q5_K
+0.00%     [kernel.kallsyms][+ffffff8f81960fb4]
+0.00%     std::__ndk1::to_string(int)
+0.00%     flockfile
+0.00%     tanhf
+0.00%     funlockfile
+0.00%     extent_try_coalesce
+0.00%     sscanf
+0.00%     strcmp
+0.00%     ggml_backend_sched_backend_id_from_cur(ggml_backend_sched*, ggml_tensor*)
+0.00%     llama_model_loader::get_weight(char const*) const
+0.00%     [kernel.kallsyms][+ffffff8f81680d08]
+0.00%     ggml_nbytes
+0.00%     llama_model_loader::weight_name_comparer::operator()(std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > const&, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > const&) const
+0.00%     [linker]soinfo::lookup_version_info(VersionTracker const&, unsigned int, char const*, version_info const**)
+0.00%     [kernel.kallsyms][+ffffff8f817acc90]
+0.00%     extent_deregister_impl
+0.00%     [kernel.kallsyms][+ffffff8f817acc08]
+0.00%     [kernel.kallsyms][+ffffff8f81680cbc]
+0.00%     __errno
+0.00%     memcmp
+0.00%     llama_kv_cache_context::~llama_kv_cache_context()
+0.00%     llama_kv_cache::apply_ubatch(llama_kv_cache::slot_info const&, llama_ubatch const&)
+0.00%     llama_context::output_reserve(int)
+0.00%     llama_context::decode(llama_batch_ext const&)
+0.00%     je_tcache_event_hard
+0.00%     llama_batch_allocr::ubatch_add(std::__ndk1::vector<int, std::__ndk1::allocator<int> > const&, unsigned int, bool)
+0.00%     ggml_backend_cpu_device_supports_op(ggml_backend_device*, ggml_tensor const*)
+0.00%     llama_kv_cache::find_slot(llama_ubatch const&, bool) const
+0.00%     extent_split_impl
+0.00%     gguf_data_to_str(gguf_type, void const*, int)
+0.00%     void set_input_kq_mask_impl<unsigned short>(args_set_input_kq_mask const&, unsigned short*, bool)
+0.00%     [kernel.kallsyms][+ffffff8f81783358]
+0.00%     [kernel.kallsyms][+ffffff8f817a6fa4]
+0.00%     llama_context::process_ubatch(llama_ubatch const&, llm_graph_type, llama_memory_context_i*, ggml_status&)
+0.00%     vsscanf
+0.00%     [kernel.kallsyms][+ffffff8f817a6f48]
+0.00%     [linker]strcmp
+0.00%     [kernel.kallsyms][+ffffff8f8177e188]
+0.00%     ggml_compute_forward_get_rows
+0.00%     syscall
+0.00%     [linker]soinfo::find_symbol_by_name(SymbolName&, version_info const*, elf64_sym const**) const
+0.00%     ggml_gallocr_allocate_node
+0.00%     pthread_cond_wait
+0.00%     extent_register_impl
+0.00%     [linker]soinfo_do_lookup(soinfo*, char const*, version_info const*, soinfo**, LinkedList<soinfo, SoinfoListAllocator> const&, LinkedList<soinfo, SoinfoListAllocator> const&, elf64_sym const**)
+0.00%     [kernel.kallsyms][+ffffff8f817a6f6c]
+0.00%     [kernel.kallsyms][+ffffff8f817acb68]
+0.00%     [kernel.kallsyms][+ffffff8f817c80a0]
+0.00%     llama_context::graph_reserve(unsigned int, unsigned int, unsigned int, llama_memory_context_i const*, bool, unsigned long*)
+0.00%     [kernel.kallsyms][+ffffff8f817b918c]
+0.00%     [kernel.kallsyms][+ffffff8f817007f0]
+0.00%     [kernel.kallsyms][+ffffff8f817a6f78]
+0.00%     [kernel.kallsyms][+ffffff8f817a6f30]
+0.00%     [kernel.kallsyms][+ffffff8f81682e48]
+0.00%     [kernel.kallsyms][+ffffff8f817acbd8]
+0.00%     [kernel.kallsyms][+ffffff8f817accf0]
+0.00%     [kernel.kallsyms][+ffffff8f817b91e8]
+0.00%     ggml_backend_sched_backend_from_buffer(ggml_backend_sched*, ggml_tensor const*, ggml_tensor const*)
+0.00%     llama_model_loader::load_all_data(ggml_context*, std::__ndk1::vector<ggml_backend_buffer*, std::__ndk1::allocator<ggml_backend_buffer*> >&, std::__ndk1::vector<std::__ndk1::unique_ptr<llama_mlock, std::__ndk1::default_delete<llama_mlock> >, std::__ndk1::allocator<std::__ndk1::unique_ptr<llama_mlock, std::__ndk1::default_delete<llama_mlock> > > >*, bool (*)(float, void*), void*)
+0.00%     extents_remove_locked
+0.00%     [kernel.kallsyms][+ffffff8f817b91d8]
+0.00%     getenv
+0.00%     operator delete(void*)
+0.00%     ggml_gallocr_alloc_graph
+0.00%     llm_graph_input_attn_kv::set_input(llama_ubatch const*)
+0.00%     [kernel.kallsyms][+ffffff8f8172f348]
+0.00%     std::__ndk1::__tree<std::__ndk1::__value_type<int, std::__ndk1::vector<float, std::__ndk1::allocator<float> > >, std::__ndk1::__map_value_compare<int, std::__ndk1::__value_type<int, std::__ndk1::vector<float, std::__ndk1::allocator<float> > >, std::__ndk1::less<int>, true>, std::__ndk1::allocator<std::__ndk1::__value_type<int, std::__ndk1::vector<float, std::__ndk1::allocator<float> > > > >::destroy(std::__ndk1::__tree_node<std::__ndk1::__value_type<int, std::__ndk1::vector<float, std::__ndk1::allocator<float> > >, void*>*)
+0.00%     __aarch64_ldadd8_acq_rel
+0.00%     bionic_trace_end()
+0.00%     llm_graph_input_out_ids::can_reuse(llm_graph_params const&)
+0.00%     void std::__ndk1::map<int, llama_sampler*, std::__ndk1::less<int>, std::__ndk1::allocator<std::__ndk1::pair<int const, llama_sampler*> > >::insert[abi:ne180000]<std::__ndk1::__map_const_iterator<std::__ndk1::__tree_const_iterator<std::__ndk1::__value_type<int, llama_sampler*>, std::__ndk1::__tree_node<std::__ndk1::__value_type<int, llama_sampler*>, void*>*, long> > >(std::__ndk1::__map_const_iterator<std::__ndk1::__tree_const_iterator<std::__ndk1::__value_type<int, llama_sampler*>, std::__ndk1::__tree_node<std::__ndk1::__value_type<int, llama_sampler*>, void*>*, long> >, std::__ndk1::__map_const_iterator<std::__ndk1::__tree_const_iterator<std::__ndk1::__value_type<int, llama_sampler*>, std::__ndk1::__tree_node<std::__ndk1::__value_type<int, llama_sampler*>, void*>*, long> >)
+0.00%     je_extent_avail_remove
+0.00%     std::__ndk1::pair<std::__ndk1::__hash_iterator<std::__ndk1::__hash_node<std::__ndk1::__hash_value_type<int, std::__ndk1::vector<unsigned int, std::__ndk1::allocator<unsigned int> > >, void*>*>, bool> std::__ndk1::__hash_table<std::__ndk1::__hash_value_type<int, std::__ndk1::vector<unsigned int, std::__ndk1::allocator<unsigned int> > >, std::__ndk1::__unordered_map_hasher<int, std::__ndk1::__hash_value_type<int, std::__ndk1::vector<unsigned int, std::__ndk1::allocator<unsigned int> > >, std::__ndk1::hash<int>, std::__ndk1::equal_to<int>, true>, std::__ndk1::__unordered_map_equal<int, std::__ndk1::__hash_value_type<int, std::__ndk1::vector<unsigned int, std::__ndk1::allocator<unsigned int> > >, std::__ndk1::equal_to<int>, std::__ndk1::hash<int>, true>, std::__ndk1::allocator<std::__ndk1::__hash_value_type<int, std::__ndk1::vector<unsigned int, std::__ndk1::allocator<unsigned int> > > > >::__emplace_unique_key_args<int, std::__ndk1::piecewise_construct_t const&, std::__ndk1::tuple<int const&>, std::__ndk1::tuple<> >(int const&, std::__ndk1::piecewise_construct_t const&, std::__ndk1::tuple<int const&>&&, std::__ndk1::tuple<>&&)
+0.00%     ggml_threadpool_chunk_add
+0.00%     ggml_backend_sched_graph_compute_async
+0.00%     llama_ubatch::data_t::~data_t()
+0.00%     std::__ndk1::vector<bool, std::__ndk1::allocator<bool> >::vector(std::__ndk1::vector<bool, std::__ndk1::allocator<bool> > const&)
+0.00%     [kernel.kallsyms][+ffffff8f8169960c]
+0.00%     __futex_wait_ex(void volatile*, bool, int, bool, timespec const*)
+0.00%     std::__ndk1::vector<std::__ndk1::bitset<256ul>, std::__ndk1::allocator<std::__ndk1::bitset<256ul> > >::__append(unsigned long)
+0.00%     std::__ndk1::pair<std::__ndk1::__hash_iterator<std::__ndk1::__hash_node<std::__ndk1::__hash_value_type<std::__ndk1::bitset<256ul>, std::__ndk1::vector<int, std::__ndk1::allocator<int> > >, void*>*>, bool> std::__ndk1::__hash_table<std::__ndk1::__hash_value_type<std::__ndk1::bitset<256ul>, std::__ndk1::vector<int, std::__ndk1::allocator<int> > >, std::__ndk1::__unordered_map_hasher<std::__ndk1::bitset<256ul>, std::__ndk1::__hash_value_type<std::__ndk1::bitset<256ul>, std::__ndk1::vector<int, std::__ndk1::allocator<int> > >, std::__ndk1::hash<std::__ndk1::bitset<256ul> >, std::__ndk1::equal_to<std::__ndk1::bitset<256ul> >, true>, std::__ndk1::__unordered_map_equal<std::__ndk1::bitset<256ul>, std::__ndk1::__hash_value_type<std::__ndk1::bitset<256ul>, std::__ndk1::vector<int, std::__ndk1::allocator<int> > >, std::__ndk1::equal_to<std::__ndk1::bitset<256ul> >, std::__ndk1::hash<std::__ndk1::bitset<256ul> >, true>, std::__ndk1::allocator<std::__ndk1::__hash_value_type<std::__ndk1::bitset<256ul>, std::__ndk1::vector<int, std::__ndk1::allocator<int> > > > >::__emplace_unique_key_args<std::__ndk1::bitset<256ul>, std::__ndk1::piecewise_construct_t const&, std::__ndk1::tuple<std::__ndk1::bitset<256ul> const&>, std::__ndk1::tuple<> >(std::__ndk1::bitset<256ul> const&, std::__ndk1::piecewise_construct_t const&, std::__ndk1::tuple<std::__ndk1::bitset<256ul> const&>&&, std::__ndk1::tuple<>&&)
+0.00%     je_posix_memalign
+0.00%     llama_hparams::n_embd_out() const
+0.00%     ggml_backend_sched_get_tensor_backend
+0.00%     [kernel.kallsyms][+ffffff8f819695ac]
+0.00%     ggml_is_quantized
+0.00%     std::__ndk1::pair<std::__ndk1::__hash_iterator<std::__ndk1::__hash_node<std::__ndk1::__hash_value_type<int, unsigned int>, void*>*>, bool> std::__ndk1::__hash_table<std::__ndk1::__hash_value_type<int, unsigned int>, std::__ndk1::__unordered_map_hasher<int, std::__ndk1::__hash_value_type<int, unsigned int>, std::__ndk1::hash<int>, std::__ndk1::equal_to<int>, true>, std::__ndk1::__unordered_map_equal<int, std::__ndk1::__hash_value_type<int, unsigned int>, std::__ndk1::equal_to<int>, std::__ndk1::hash<int>, true>, std::__ndk1::allocator<std::__ndk1::__hash_value_type<int, unsigned int> > >::__emplace_unique_key_args<int, std::__ndk1::piecewise_construct_t const&, std::__ndk1::tuple<int const&>, std::__ndk1::tuple<> >(int const&, std::__ndk1::piecewise_construct_t const&, std::__ndk1::tuple<int const&>&&, std::__ndk1::tuple<>&&)
+0.00%     LLM_TN_IMPL::str() const
+0.00%     [kernel.kallsyms][+ffffff8f81680ce0]
+0.00%     [kernel.kallsyms][+ffffff8f8249785c]
+0.00%     llama_kv_cells::resize(unsigned int)
+0.00%     ggml_nelements
+0.00%     llama_context::memory_update(bool)
+0.00%     arena_bin_malloc_hard
+0.00%     [kernel.kallsyms][+ffffff8f81786248]
+0.00%     [kernel.kallsyms][+ffffff8f81699608]
+0.00%     gguf_kv::gguf_kv<int>(std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > const&, std::__ndk1::vector<int, std::__ndk1::allocator<int> > const&)
+0.00%     llama_kv_cache::set_input_kq_mask(ggml_tensor*, llama_ubatch const*, bool) const
+0.00%     ggml_critical_section_start
+0.00%     [kernel.kallsyms][+ffffff8f81786560]
+0.00%     [kernel.kallsyms][+ffffff8f817accec]
+0.00%     je_base_alloc_extent
+0.00%     je_tcache_alloc_small_hard
+0.00%     [kernel.kallsyms][+ffffff8f817acc54]
+0.00%     std::__ndk1::locale::use_facet(std::__ndk1::locale::id&) const
+0.00%     llm_graph_result::can_reuse(llm_graph_params const&)
+0.00%     rand
+0.00%     je_extents_alloc
+0.00%     [kernel.kallsyms][+ffffff8f81700810]
+0.00%     LLM_KV::operator()(llm_kv) const
+0.00%     [kernel.kallsyms][+ffffff8f81960fb0]
+0.00%     [kernel.kallsyms][+ffffff8f81782360]
+0.00%     llm_graph_input_pos::can_reuse(llm_graph_params const&)
+0.00%     [kernel.kallsyms][+ffffff8f817a6f3c]
+0.00%     [kernel.kallsyms][+ffffff8f817acb74]
+0.00%     [kernel.kallsyms][+ffffff8f81782368]
+0.00%     extent_rtree_leaf_elms_lookup
+0.00%     extent_lock_from_addr
+0.00%     [kernel.kallsyms][+ffffff8f817d658c]
+0.00%     [kernel.kallsyms][+ffffff8f81680d00]
+0.00%     llama_model_loader::llama_model_loader(gguf_context*, void (*)(ggml_tensor*, void*), void*, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > const&, std::__ndk1::vector<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::allocator<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > > >&, __sFILE*, llama_load_mode, bool, bool, bool, llama_model_kv_override const*, llama_model_tensor_buft_override const*)
+0.00%     [kernel.kallsyms][+ffffff8f817acce4]
+0.00%     [kernel.kallsyms][+ffffff8f816834c4]
+0.00%     [kernel.kallsyms][+ffffff8f81747a34]
+0.00%     extent_record
+0.00%     [kernel.kallsyms][+ffffff8f81747960]
+0.00%     [kernel.kallsyms][+ffffff8f81960fbc]
+0.00%     je_extent_heap_first
+0.00%     [kernel.kallsyms][+ffffff8f81780458]
+0.00%     [kernel.kallsyms][+ffffff8f817ada40]
+0.00%     std::__ndk1::allocator<llama_kv_cells>::destroy[abi:ne180000](llama_kv_cells*)
+0.00%     expm1f
+0.00%     [kernel.kallsyms][+ffffff8f817c808c]
+0.00%     [kernel.kallsyms][+ffffff8f817acb4c]
+0.00%     [kernel.kallsyms][+ffffff8f817acb70]
+0.00%     [kernel.kallsyms][+ffffff8f816995ac]
+0.00%     [kernel.kallsyms][+ffffff8f817acb40]
+0.00%     [kernel.kallsyms][+ffffff8f81747988]
+0.00%     [kernel.kallsyms][+ffffff8f817b91dc]
+0.00%     [kernel.kallsyms][+ffffff8f81711c2c]
+0.00%     common_batch::add(int, int, int, bool)
+0.00%     [kernel.kallsyms][+ffffff8f817acb28]
+0.00%     [kernel.kallsyms][+ffffff8f817b0238]
+0.00%     [kernel.kallsyms][+ffffff8f8169957c]
+0.00%     [kernel.kallsyms][+ffffff8f816996d0]
+0.00%     [kernel.kallsyms][+ffffff8f8249b3cc]
+0.00%     [kernel.kallsyms][+ffffff8f817ada6c]
+0.00%     [kernel.kallsyms][+ffffff8f817c809c]
+0.00%     [kernel.kallsyms][+ffffff8f81786254]
+0.00%     [kernel.kallsyms][+ffffff8f816995e0]
+0.00%     [kernel.kallsyms][+ffffff8f816d47e4]
+0.00%     [kernel.kallsyms][+ffffff8f81711a04]
+0.00%     [kernel.kallsyms][+ffffff8f817ada70]
+0.00%     [kernel.kallsyms][+ffffff8f81711c28]
+0.00%     [kernel.kallsyms][+ffffff8f817adb10]
+0.00%     [kernel.kallsyms][+ffffff8f817acc3c]
+0.00%     [kernel.kallsyms][+ffffff8f817acd80]
+0.00%     [kernel.kallsyms][+ffffff8f817acc00]
+0.00%     extents_insert_locked
+0.00%     std::__ndk1::basic_istream<char, std::__ndk1::char_traits<char> >& std::__ndk1::getline[abi:ne180000]<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >(std::__ndk1::basic_istream<char, std::__ndk1::char_traits<char> >&, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >&, char)
+0.00%     [kernel.kallsyms][+ffffff8f817aac3c]
+0.00%     extent_lock2
+0.00%     [kernel.kallsyms][+ffffff8f816996f0]
+0.00%     [kernel.kallsyms][+ffffff8f816996ac]
+0.00%     std::__ndk1::__fs::filesystem::__dir_stream::advance(std::__ndk1::error_code&)
+0.00%     [kernel.kallsyms][+ffffff8f81711c20]
+0.00%     [kernel.kallsyms][+ffffff8f81680ce8]
+0.00%     [kernel.kallsyms][+ffffff8f817acb58]
+0.00%     [kernel.kallsyms][+ffffff8f817acbd4]
+0.00%     [kernel.kallsyms][+ffffff8f817b917c]
+0.00%     [kernel.kallsyms][+ffffff8f817acb78]
+0.00%     [kernel.kallsyms][+ffffff8f817acb18]
+0.00%     [kernel.kallsyms][+ffffff8f81711c1c]
+0.00%     [kernel.kallsyms][+ffffff8f817acc34]
+0.00%     [kernel.kallsyms][+ffffff8f816995b4]
+0.00%     [kernel.kallsyms][+ffffff8f816995cc]
+0.00%     [kernel.kallsyms][+ffffff8f817a6f74]
+0.00%     [kernel.kallsyms][+ffffff8f817b9168]
+0.00%     ggml_format_name
+0.00%     [kernel.kallsyms][+ffffff8f817acbe0]
+0.00%     std::__ndk1::__fs::filesystem::directory_iterator::directory_iterator(std::__ndk1::__fs::filesystem::path const&, std::__ndk1::error_code*, std::__ndk1::__fs::filesystem::directory_options)
+0.00%     [kernel.kallsyms][+ffffff8f817acc7c]
+0.00%     [kernel.kallsyms][+ffffff8f8178234c]
+0.00%     std::__ndk1::__fs::filesystem::path::__extension() const
+0.00%     ggml_dyn_tallocr_free_bytes
+0.00%     ggml_gallocr_reserve_n
+0.00%     std::__ndk1::__tree<std::__ndk1::__value_type<llm_arch, char const*>, std::__ndk1::__map_value_compare<llm_arch, std::__ndk1::__value_type<llm_arch, char const*>, std::__ndk1::less<llm_arch>, true>, std::__ndk1::allocator<std::__ndk1::__value_type<llm_arch, char const*> > >::destroy(std::__ndk1::__tree_node<std::__ndk1::__value_type<llm_arch, char const*>, void*>*)
+0.00%     llama_prec_policy::apply(ggml_tensor*) const
+0.00%     llm_graph_context::build_qkv(llama_layer const&, ggml_tensor*, long, long, long, long, long, long, int, bool) const
+0.00%     llama_kv_cache::get_k(ggml_context*, int, unsigned int, llama_kv_cache::slot_info const&) const
+0.00%     extent_split_interior
+0.00%     [kernel.kallsyms][+ffffff8f817ab734]
+0.00%     llama_kv_cache::init_batch(llama_batch_allocr&, unsigned int, bool)
+0.00%     std::__ndk1::vector<bool, std::__ndk1::allocator<bool> >::resize(unsigned long, bool)
+0.00%     ggml_build_forward_expand
+0.00%     llama_log_internal(ggml_log_level, char const*, ...)
+0.00%     ggml_backend_buffer_is_meta
+0.00%     std::__ndk1::__function::__func<llama_context::graph_get_cb() const::$_0, std::__ndk1::allocator<llama_context::graph_get_cb() const::$_0>, void (llama_ubatch const&, ggml_tensor*, char const*, int)>::operator()(llama_ubatch const&, ggml_tensor*&&, char const*&&, int&&)
+0.00%     std::__ndk1::pair<std::__ndk1::__hash_iterator<std::__ndk1::__hash_node<std::__ndk1::__hash_value_type<int, int>, void*>*>, bool> std::__ndk1::__hash_table<std::__ndk1::__hash_value_type<int, int>, std::__ndk1::__unordered_map_hasher<int, std::__ndk1::__hash_value_type<int, int>, std::__ndk1::hash<int>, std::__ndk1::equal_to<int>, true>, std::__ndk1::__unordered_map_equal<int, std::__ndk1::__hash_value_type<int, int>, std::__ndk1::equal_to<int>, std::__ndk1::hash<int>, true>, std::__ndk1::allocator<std::__ndk1::__hash_value_type<int, int> > >::__emplace_unique_key_args<int, std::__ndk1::piecewise_construct_t const&, std::__ndk1::tuple<int&&>, std::__ndk1::tuple<> >(int const&, std::__ndk1::piecewise_construct_t const&, std::__ndk1::tuple<int&&>&&, std::__ndk1::tuple<>&&)
+0.00%     ggml_add_impl
+0.00%     [linker]std::__1::__murmur2_or_cityhash<unsigned long, 64ul>::operator()(void const*, unsigned long)
+0.00%     [kernel.kallsyms][+ffffff8f817acc28]
+0.00%     [kernel.kallsyms][+ffffff8f816996a0]
+0.00%     std::__ndk1::pair<std::__ndk1::unique_ptr<ggml_context, ggml_context_deleter>, std::__ndk1::unique_ptr<ggml_backend_buffer, ggml_backend_buffer_deleter> >* std::__ndk1::vector<std::__ndk1::pair<std::__ndk1::unique_ptr<ggml_context, ggml_context_deleter>, std::__ndk1::unique_ptr<ggml_backend_buffer, ggml_backend_buffer_deleter> >, std::__ndk1::allocator<std::__ndk1::pair<std::__ndk1::unique_ptr<ggml_context, ggml_context_deleter>, std::__ndk1::unique_ptr<ggml_backend_buffer, ggml_backend_buffer_deleter> > > >::__emplace_back_slow_path<std::__ndk1::unique_ptr<ggml_context, ggml_context_deleter>, ggml_backend_buffer*&>(std::__ndk1::unique_ptr<ggml_context, ggml_context_deleter>&&, ggml_backend_buffer*&)
+0.00%     llama_model_loader::lazy_read::has(ggml_tensor const*) const
+0.00%     [kernel.kallsyms][+ffffff8f817c3f10]
+0.00%     ggml_mul_mat
+0.00%     lseek64
+0.00%     llama_model_load_from_file_impl(gguf_context*, void (*)(ggml_tensor*, void*), void*, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > const&, std::__ndk1::vector<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::allocator<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > > >&, __sFILE*, llama_model_params)::$_0::__invoke(float, void*)
+0.00%     [kernel.kallsyms][+ffffff8f81747a30]
+0.00%     [kernel.kallsyms][+ffffff8f817d70c0]
+0.00%     __fseeko64(__sFILE*, long, int, int)
+0.00%     SystemProperties::ReadCallback(prop_info const*, void (*)(void*, char const*, char const*, unsigned int), void*)
+0.00%     [kernel.kallsyms][+ffffff8f8249b680]
+0.00%     [kernel.kallsyms][+ffffff8f817af8d4]
+0.00%     [kernel.kallsyms][+ffffff8f817d5b50]
+0.00%     llama_file::impl::read_raw_unsafe(void*, unsigned long)
+0.00%     [kernel.kallsyms][+ffffff8f817a9e80]
+0.00%     [linker]soinfo::prelink_image()
+0.00%     llama_file::read_raw(void*, unsigned long)
+0.00%     llama_file::impl::tell() const
+0.00%     [kernel.kallsyms][+ffffff8f817d6680]
+0.00%     read
+0.00%     [kernel.kallsyms][+ffffff8f81857044]
+0.00%     ftello64
+0.00%     vsnprintf
+0.00%     ferror
+0.00%     [kernel.kallsyms][+ffffff8f8177e138]
+0.00%     ggml_backend_cpu_buffer_type_is_host(ggml_backend_buffer_type*)
+0.00%     ggml_backend_buffer_is_host
+0.00%     __sread
+0.00%     [linker]soinfo::link_image(LinkedList<soinfo, SoinfoListAllocator> const&, LinkedList<soinfo, SoinfoListAllocator> const&, android_dlextinfo const*, unsigned long*)
+0.00%     [linker]BionicSmallObjectAllocator::free(void*)
+0.00%     [kernel.kallsyms][+ffffff8f817b1048]
+0.00%     [linker]phdr_table_get_load_size(elf64_phdr const*, unsigned long, unsigned long long*, unsigned long long*)
+0.00%     [linker]Config::read_binary_config(char const*, char const*, bool, Config const**, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >*)
+0.00%     [linker]ElfReader::FindPhdr()
+0.00%     [kernel.kallsyms][+ffffff8f816b7f1c]
+0.00%     [linker]ElfReader::LoadSegments()
+0.00%     [linker]ConfigParser::next_token(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >*, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >*, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >*)
+0.00%     [kernel.kallsyms][+ffffff8f817a6fc4]
+0.00%     [kernel.kallsyms][+ffffff8f818f0318]
+0.00%     [kernel.kallsyms][+ffffff8f81680df0]
+0.00%     [kernel.kallsyms][+ffffff8f8172c900]
+0.00%     [kernel.kallsyms][+ffffff8f818ef760]
+0.00%     [linker]android::base::Trim(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
+0.00%     [kernel.kallsyms][+ffffff8f81969578]
+0.00%     SystemProperties::Serial(prop_info const*)
+0.00%     [kernel.kallsyms][+ffffff8f81683368]
+0.00%     [kernel.kallsyms][+ffffff8f816998c8]
+0.00%     [kernel.kallsyms][+ffffff8f817007f8]
+0.00%     [kernel.kallsyms][+ffffff8f81711c40]
+0.00%     [kernel.kallsyms][+ffffff8f8172d93c]
+0.00%     [kernel.kallsyms][+ffffff8f817a6f24]
+0.00%     [kernel.kallsyms][+ffffff8f817acc30]
+0.00%     [linker]std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >::basic_string(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
+0.00%     [linker]std::__1::pair<std::__1::__hash_iterator<std::__1::__hash_node<std::__1::__hash_value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, PropertyValue>, void*>*>, bool> std::__1::__hash_table<std::__1::__hash_value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, PropertyValue>, std::__1::__unordered_map_hasher<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::__hash_value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, PropertyValue>, std::__1::hash<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, true>, std::__1::__unordered_map_equal<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::__hash_value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, PropertyValue>, std::__1::equal_to<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, true>, std::__1::allocator<std::__1::__hash_value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, PropertyValue> > >::__emplace_unique_key_args<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::piecewise_construct_t const&, std::__1::tuple<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&>, std::__1::tuple<> >(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, std::__1::piecewise_construct_t const&, std::__1::tuple<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&>&&, std::__1::tuple<>&&)
+
+Event: instructions:u (type 0, config 1)
+Samples: 399938
+Event count: 255222782639
+
+Overhead  Symbol
+51.67%    ggml_vec_dot_q5_K_q8_K
+24.02%    ggml_graph_compute_thread
+19.84%    ggml_vec_dot_q6_K_q8_K
+2.53%     ggml_compute_forward_mul_mat
+0.23%     ggml_compute_forward_flash_attn_ext_f16_one_chunk(ggml_compute_params const*, ggml_tensor*, int, int, long, long, float*, long)
+0.21%     quantize_row_q8_K_ref
+0.14%     ggml_barrier
+0.10%     ggml_vec_dot_f16
+0.10%     ggml_vec_swiglu_f32
+0.09%     __memcpy
+0.06%     __aarch64_ldadd4_relax
+0.06%     @plt
+0.04%     ggml_compute_forward_add_non_quantized
+0.04%     std::__ndk1::__hash_iterator<std::__ndk1::__hash_node<std::__ndk1::__hash_value_type<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, unsigned char>, void*>*> std::__ndk1::__hash_table<std::__ndk1::__hash_value_type<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, unsigned char>, std::__ndk1::__unordered_map_hasher<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::__hash_value_type<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, unsigned char>, std::__ndk1::hash<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >, std::__ndk1::equal_to<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >, true>, std::__ndk1::__unordered_map_equal<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::__hash_value_type<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, unsigned char>, std::__ndk1::equal_to<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >, std::__ndk1::hash<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >, true>, std::__ndk1::allocator<std::__ndk1::__hash_value_type<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, unsigned char> > >::find<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >(std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > const&)
+0.04%     __aarch64_ldadd4_acq_rel
+0.03%     llama_vocab::impl::load(llama_model_loader&, LLM_KV const&)
+0.03%     std::__ndk1::basic_ostream<char, std::__ndk1::char_traits<char> >& std::__ndk1::__put_character_sequence[abi:ne180000]<char, std::__ndk1::char_traits<char> >(std::__ndk1::basic_ostream<char, std::__ndk1::char_traits<char> >&, char const*, unsigned long)
+0.03%     ggml_is_empty
+0.03%     std::__ndk1::ostreambuf_iterator<char, std::__ndk1::char_traits<char> > std::__ndk1::__pad_and_output[abi:ne180000]<char, std::__ndk1::char_traits<char> >(std::__ndk1::ostreambuf_iterator<char, std::__ndk1::char_traits<char> >, char const*, char const*, char const*, std::__ndk1::ios_base&, char)
+0.02%     std::__ndk1::pair<std::__ndk1::__hash_iterator<std::__ndk1::__hash_node<std::__ndk1::__hash_value_type<std::__ndk1::pair<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >, int>, void*>*>, bool> std::__ndk1::__hash_table<std::__ndk1::__hash_value_type<std::__ndk1::pair<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >, int>, std::__ndk1::__unordered_map_hasher<std::__ndk1::pair<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >, std::__ndk1::__hash_value_type<std::__ndk1::pair<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >, int>, llama_vocab::impl::pair_hash, std::__ndk1::equal_to<std::__ndk1::pair<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > > >, true>, std::__ndk1::__unordered_map_equal<std::__ndk1::pair<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >, std::__ndk1::__hash_value_type<std::__ndk1::pair<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >, int>, std::__ndk1::equal_to<std::__ndk1::pair<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > > >, llama_vocab::impl::pair_hash, true>, std::__ndk1::allocator<std::__ndk1::__hash_value_type<std::__ndk1::pair<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >, int> > >::__emplace_unique_key_args<std::__ndk1::pair<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >, std::__ndk1::pair<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >, int&>(std::__ndk1::pair<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > > const&, std::__ndk1::pair<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >&&, int&)
+0.02%     void ggml_compute_forward_rope_flt<float>(ggml_compute_params const*, ggml_tensor*, bool)
+0.02%     replace_all(std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >&, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > const&, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > const&)
+0.02%     strlen
+0.02%     NonPI::MutexLockWithTimeout(pthread_mutex_internal_t*, bool, timespec const*)
+0.02%     ggml_is_contiguous
+0.02%     gguf_get_arr_str
+0.02%     llama_vocab::impl::~impl()
+0.02%     pthread_mutex_unlock
+0.02%     std::__ndk1::basic_streambuf<char, std::__ndk1::char_traits<char> >::xsputn(char const*, long)
+0.02%     std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >::push_back(char)
+0.02%     sincosf
+0.02%     ggml::cpu::repack::extra_buffer_type::get_tensor_traits(ggml_tensor const*)
+0.02%     std::__ndk1::pair<std::__ndk1::__hash_iterator<std::__ndk1::__hash_node<std::__ndk1::__hash_value_type<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, int>, void*>*>, bool> std::__ndk1::__hash_table<std::__ndk1::__hash_value_type<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, int>, std::__ndk1::__unordered_map_hasher<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::__hash_value_type<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, int>, std::__ndk1::hash<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >, std::__ndk1::equal_to<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >, true>, std::__ndk1::__unordered_map_equal<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::__hash_value_type<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, int>, std::__ndk1::equal_to<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >, std::__ndk1::hash<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >, true>, std::__ndk1::allocator<std::__ndk1::__hash_value_type<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, int> > >::__emplace_unique_key_args<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::piecewise_construct_t const&, std::__ndk1::tuple<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > const&>, std::__ndk1::tuple<> >(std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > const&, std::__ndk1::piecewise_construct_t const&, std::__ndk1::tuple<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > const&>&&, std::__ndk1::tuple<>&&)
+0.02%     ggml_compute_forward_rms_norm_mul_fused
+0.01%     __ieee754_expf
+0.01%     memcpy
+0.01%     std::__ndk1::basic_ostream<char, std::__ndk1::char_traits<char> >::sentry::~sentry()
+0.01%     je_free
+0.01%     je_malloc
+0.01%     std::__ndk1::__murmur2_or_cityhash<unsigned long, 64ul>::operator()[abi:ne180000](void const*, unsigned long) const
+0.01%     unicode_cpt_from_utf8(std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > const&, unsigned long&)
+0.01%     llama_vocab::impl::token_to_piece(int, char*, int, int, bool) const
+0.01%     fread_unlocked
+0.01%     bool std::__ndk1::operator==[abi:ne180000]<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >(std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > const&, char const*)
+0.01%     ggml_row_size
+0.01%     std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >::append(unsigned long, char)
+0.01%     std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >::append(char const*, unsigned long)
+0.01%     ggml_cpu_extra_compute_forward
+0.01%     std::__ndk1::basic_ostream<char, std::__ndk1::char_traits<char> >::sentry::sentry(std::__ndk1::basic_ostream<char, std::__ndk1::char_traits<char> >&)
+0.01%     gguf_reader::read(std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >&) const
+0.01%     unicode_cpts_from_utf8(std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > const&)
+0.01%     unicode_utf8_to_byte(std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > const&)
+0.01%     fread
+0.01%     memchr
+0.01%     pthread_getspecific
+0.01%     llamafile_sgemm
+0.01%     gguf_kv_to_str(gguf_context const*, int)
+0.01%     [kernel.kallsyms][+ffffff8f817b9204]
+0.01%     __svfscanf
+0.01%     unicode_cpt_to_utf8(unsigned int)
+0.01%     std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >::reserve(unsigned long)
+0.01%     [linker]soinfo::gnu_lookup(SymbolName&, version_info const*, unsigned int*) const
+0.00%     je_tcache_bin_flush_small
+0.00%     gguf_file_reader_callback(void*, void*, unsigned long, unsigned long)
+0.00%     memset
+0.00%     arena_dalloc_bin_locked_impl
+0.00%     ggml_compute_forward_set_rows
+0.00%     [kernel.kallsyms][+ffffff8f81682e3c]
+0.00%     std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >::append(std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > const&, unsigned long, unsigned long)
+0.00%     llama_decode_text(std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > const&)
+0.00%     je_arena_tcache_fill_small
+0.00%     [kernel.kallsyms][+ffffff8f817007fc]
+0.00%     std::__ndk1::to_string(int)
+0.00%     llama_vocab::impl::token_to_piece_for_cache(int, bool) const
+0.00%     ggml_can_repeat
+0.00%     __vfprintf
+0.00%     ggml_compute_forward_flash_attn_ext
+0.00%     pthread_mutex_lock
+0.00%     ggml_type_size
+0.00%     ggml_compute_forward_rope
+0.00%     std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >::resize(unsigned long, char)
+0.00%     ggml_graph_plan
+0.00%     std::__ndk1::__itoa::__base_10_u32[abi:ne180000](char*, unsigned int)
+0.00%     unicode_cpt_flags_array()
+0.00%     ggml_compute_forward_glu
+0.00%     ggml_compute_forward_add
+0.00%     ggml_cpu_fp32_to_fp16
+0.00%     ggml_backend_cpu_get_extra_buffer_types()
+0.00%     [kernel.kallsyms][+ffffff8f8249b3d8]
+0.00%     malloc
+0.00%     void std::__ndk1::__hash_table<std::__ndk1::__hash_value_type<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, int>, std::__ndk1::__unordered_map_hasher<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::__hash_value_type<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, int>, std::__ndk1::hash<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >, std::__ndk1::equal_to<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >, true>, std::__ndk1::__unordered_map_equal<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::__hash_value_type<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, int>, std::__ndk1::equal_to<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >, std::__ndk1::hash<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >, true>, std::__ndk1::allocator<std::__ndk1::__hash_value_type<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, int> > >::__do_rehash<true>(unsigned long)
+0.00%     ggml_cpu_init
+0.00%     void std::__ndk1::vector<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::allocator<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > > >::__assign_with_size[abi:ne180000]<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >*, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >*>(std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >*, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >*, long)
+0.00%     [linker]bool soinfo::relocate<plain_reloc_iterator>(VersionTracker const&, plain_reloc_iterator&&, LinkedList<soinfo, SoinfoListAllocator> const&, LinkedList<soinfo, SoinfoListAllocator> const&)
+0.00%     funlockfile
+0.00%     memcmp
+0.00%     __sfvwrite
+0.00%     __ieee754_logf
+0.00%     ggml_new_tensor_impl
+0.00%     ggml_backend_sched_split_graph
+0.00%     void std::__ndk1::__hash_table<std::__ndk1::__hash_value_type<std::__ndk1::pair<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >, int>, std::__ndk1::__unordered_map_hasher<std::__ndk1::pair<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >, std::__ndk1::__hash_value_type<std::__ndk1::pair<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >, int>, llama_vocab::impl::pair_hash, std::__ndk1::equal_to<std::__ndk1::pair<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > > >, true>, std::__ndk1::__unordered_map_equal<std::__ndk1::pair<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >, std::__ndk1::__hash_value_type<std::__ndk1::pair<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >, int>, std::__ndk1::equal_to<std::__ndk1::pair<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > > >, llama_vocab::impl::pair_hash, true>, std::__ndk1::allocator<std::__ndk1::__hash_value_type<std::__ndk1::pair<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >, int> > >::__do_rehash<true>(unsigned long)
+0.00%     tanhf
+0.00%     free
+0.00%     long StrToI<long, -9223372036854775808l, 9223372036854775807l>(char const*, char**, int)
+0.00%     operator new(unsigned long)
+0.00%     bool gguf_reader::read<int>(std::__ndk1::vector<int, std::__ndk1::allocator<int> >&, unsigned long) const
+0.00%     [kernel.kallsyms][+ffffff8f8249b3ec]
+0.00%     ggml_blck_size
+0.00%     bool gguf_reader::read<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >(std::__ndk1::vector<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::allocator<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > > >&, unsigned long) const
+0.00%     ggml_is_contiguous_rows
+0.00%     __log2_finite
+0.00%     std::__ndk1::vector<gguf_kv, std::__ndk1::allocator<gguf_kv> >::__base_destruct_at_end[abi:ne180000](gguf_kv*)
+0.00%     [kernel.kallsyms][+ffffff8f817007e0]
+0.00%     llama_model_loader::weight_name_comparer::operator()(std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > const&, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > const&) const
+0.00%     pthread_mutex_trylock
+0.00%     __powf_finite
+0.00%     ggml_nrows
+0.00%     llama_batch_allocr::clear()
+0.00%     llama_vocab::impl::token_to_piece(int, char*, int, int, bool) const::$_0::operator()(char const*, unsigned long) const
+0.00%     bool gguf_read_emplace_helper<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >(gguf_reader const&, std::__ndk1::vector<gguf_kv, std::__ndk1::allocator<gguf_kv> >&, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > const&, bool, unsigned long)
+0.00%     ggml_graph_compute_secondary_thread
+0.00%     llama_kv_cache::prepare(std::__ndk1::vector<llama_ubatch, std::__ndk1::allocator<llama_ubatch> > const&)
+0.00%     ggml_gallocr_reserve_n_impl
+0.00%     select_weight_buft(llama_hparams const&, ggml_tensor*, ggml_op, std::__ndk1::vector<std::__ndk1::pair<ggml_backend_device*, ggml_backend_buffer_type*>, std::__ndk1::allocator<std::__ndk1::pair<ggml_backend_device*, ggml_backend_buffer_type*> > > const*)
+0.00%     je_tcache_alloc_small_hard
+0.00%     [kernel.kallsyms][+ffffff8f81683354]
+0.00%     [linker]soinfo::find_symbol_by_name(SymbolName&, version_info const*, elf64_sym const**) const
+0.00%     strcmp
+0.00%     flockfile
+0.00%     llama_context::graph_reserve(unsigned int, unsigned int, unsigned int, llama_memory_context_i const*, bool, unsigned long*)
+0.00%     extent_recycle
+0.00%     operator delete(void*)
+0.00%     [kernel.kallsyms][+ffffff8f8249b3d0]
+0.00%     ggml_gallocr_allocate_node
+0.00%     quantize_row_q8_K
+0.00%     ggml_compute_forward_mul_mat_tiled
+0.00%     ggml_are_same_shape
+0.00%     [kernel.kallsyms][+ffffff8f817d65c8]
+0.00%     ggml_backend_cpu_device_supports_op(ggml_backend_device*, ggml_tensor const*)
+0.00%     [linker]strcmp
+0.00%     [kernel.kallsyms][+ffffff8f816996ac]
+0.00%     format(char const*, ...)
+0.00%     [kernel.kallsyms][+ffffff8f81960fbc]
+0.00%     gguf_kv::gguf_kv<int>(std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > const&, std::__ndk1::vector<int, std::__ndk1::allocator<int> > const&)
+0.00%     [kernel.kallsyms][+ffffff8f81785f70]
+0.00%     std::__ndk1::__fs::filesystem::path::__filename() const
+0.00%     ggml_new_object
+0.00%     std::__ndk1::pair<std::__ndk1::__tree_iterator<std::__ndk1::__value_type<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, llama_model_loader::llama_tensor_weight>, std::__ndk1::__tree_node<std::__ndk1::__value_type<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, llama_model_loader::llama_tensor_weight>, void*>*, long>, bool> std::__ndk1::__tree<std::__ndk1::__value_type<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, llama_model_loader::llama_tensor_weight>, std::__ndk1::__map_value_compare<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::__value_type<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, llama_model_loader::llama_tensor_weight>, llama_model_loader::weight_name_comparer, true>, std::__ndk1::allocator<std::__ndk1::__value_type<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, llama_model_loader::llama_tensor_weight> > >::__emplace_unique_key_args<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >&, llama_model_loader::llama_tensor_weight>(std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > const&, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >&, llama_model_loader::llama_tensor_weight&&)
+0.00%     ggml_visit_parents_graph
+0.00%     llama_model_loader::check_tensor_dims(std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > const&, std::__ndk1::vector<long, std::__ndk1::allocator<long> > const&, bool, bool) const
+0.00%     vsscanf
+0.00%     llama_kv_cache::apply_ubatch(llama_kv_cache::slot_info const&, llama_ubatch const&)
+0.00%     vsnprintf
+0.00%     extent_rtree_leaf_elms_lookup
+0.00%     [kernel.kallsyms][+ffffff8f8177e188]
+0.00%     [kernel.kallsyms][+ffffff8f81813a44]
+0.00%     [kernel.kallsyms][+ffffff8f816834c4]
+0.00%     extent_split_impl
+0.00%     ggml_is_numa
+0.00%     [kernel.kallsyms][+ffffff8f81969578]
+0.00%     [kernel.kallsyms][+ffffff8f817acbb0]
+0.00%     std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >::find(char, unsigned long) const
+0.00%     [kernel.kallsyms][+ffffff8f817a6fc0]
+0.00%     arena_choose
+0.00%     [kernel.kallsyms][+ffffff8f816995b4]
+0.00%     ggml_add_impl
+0.00%     [kernel.kallsyms][+ffffff8f81711c24]
+0.00%     [kernel.kallsyms][+ffffff8f817acbd0]
+0.00%     [kernel.kallsyms][+ffffff8f81960fb4]
+0.00%     [kernel.kallsyms][+ffffff8f816995bc]
+0.00%     [kernel.kallsyms][+ffffff8f817acb70]
+0.00%     ggml_rope_yarn_corr_dims
+0.00%     ggml_compute_forward_get_rows
+0.00%     [kernel.kallsyms][+ffffff8f817ab718]
+0.00%     [kernel.kallsyms][+ffffff8f817aac3c]
+0.00%     extent_lock_from_addr
+0.00%     sscanf
+0.00%     std::__ndk1::__tree_node_base<void*>*& std::__ndk1::__tree<std::__ndk1::__value_type<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, llm_chat_template>, std::__ndk1::__map_value_compare<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::__value_type<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, llm_chat_template>, std::__ndk1::less<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >, true>, std::__ndk1::allocator<std::__ndk1::__value_type<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, llm_chat_template> > >::__find_equal<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >(std::__ndk1::__tree_const_iterator<std::__ndk1::__value_type<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, llm_chat_template>, std::__ndk1::__tree_node<std::__ndk1::__value_type<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, llm_chat_template>, void*>*, long>, std::__ndk1::__tree_end_node<std::__ndk1::__tree_node_base<void*>*>*&, std::__ndk1::__tree_node_base<void*>*&, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > const&)
+0.00%     extent_try_coalesce
+0.00%     [linker]soinfo::lookup_version_info(VersionTracker const&, unsigned int, char const*, version_info const**)
+0.00%     [kernel.kallsyms][+ffffff8f817b91ec]
+0.00%     [linker]find_verdef_version_index(soinfo const*, version_info const*, unsigned short*)
+0.00%     [kernel.kallsyms][+ffffff8f817c809c]
+0.00%     [kernel.kallsyms][+ffffff8f817acc10]
+0.00%     [linker]bool soinfo::relocate<packed_reloc_iterator<sleb128_decoder> >(VersionTracker const&, packed_reloc_iterator<sleb128_decoder>&&, LinkedList<soinfo, SoinfoListAllocator> const&, LinkedList<soinfo, SoinfoListAllocator> const&)
+0.00%     expm1f
+0.00%     ggml_backend_load_best(char const*, bool, char const*)
+0.00%     void std::__ndk1::locale::__imp::install<std::__ndk1::num_get<wchar_t, std::__ndk1::istreambuf_iterator<wchar_t, std::__ndk1::char_traits<wchar_t> > > >(std::__ndk1::num_get<wchar_t, std::__ndk1::istreambuf_iterator<wchar_t, std::__ndk1::char_traits<wchar_t> > >*)
+0.00%     [linker]is_symbol_global_and_defined(soinfo const*, elf64_sym const*)
+0.00%     [linker]soinfo_do_lookup(soinfo*, char const*, version_info const*, soinfo**, LinkedList<soinfo, SoinfoListAllocator> const&, LinkedList<soinfo, SoinfoListAllocator> const&, elf64_sym const**)
+0.00%     [kernel.kallsyms][+ffffff8f817acc34]
+0.00%     llama_kv_cells::set(std::__ndk1::vector<unsigned int, std::__ndk1::allocator<unsigned int> > const&, llama_kv_cells const&)
+0.00%     llama_batch_allocr::ubatch_add(std::__ndk1::vector<int, std::__ndk1::allocator<int> > const&, unsigned int, bool)
+0.00%     std::__ndk1::vector<bool, std::__ndk1::allocator<bool> >::resize(unsigned long, bool)
+0.00%     [kernel.kallsyms][+ffffff8f8249b3e0]
+0.00%     [kernel.kallsyms][+ffffff8f817b91d8]
+0.00%     ggml_graph_compute
+0.00%     dequantize_row_q5_K
+0.00%     std::__ndk1::pair<std::__ndk1::__hash_iterator<std::__ndk1::__hash_node<std::__ndk1::__hash_value_type<int, std::__ndk1::vector<unsigned int, std::__ndk1::allocator<unsigned int> > >, void*>*>, bool> std::__ndk1::__hash_table<std::__ndk1::__hash_value_type<int, std::__ndk1::vector<unsigned int, std::__ndk1::allocator<unsigned int> > >, std::__ndk1::__unordered_map_hasher<int, std::__ndk1::__hash_value_type<int, std::__ndk1::vector<unsigned int, std::__ndk1::allocator<unsigned int> > >, std::__ndk1::hash<int>, std::__ndk1::equal_to<int>, true>, std::__ndk1::__unordered_map_equal<int, std::__ndk1::__hash_value_type<int, std::__ndk1::vector<unsigned int, std::__ndk1::allocator<unsigned int> > >, std::__ndk1::equal_to<int>, std::__ndk1::hash<int>, true>, std::__ndk1::allocator<std::__ndk1::__hash_value_type<int, std::__ndk1::vector<unsigned int, std::__ndk1::allocator<unsigned int> > > > >::__emplace_unique_key_args<int, std::__ndk1::piecewise_construct_t const&, std::__ndk1::tuple<int const&>, std::__ndk1::tuple<> >(int const&, std::__ndk1::piecewise_construct_t const&, std::__ndk1::tuple<int const&>&&, std::__ndk1::tuple<>&&)
+0.00%     std::__ndk1::vector<int, std::__ndk1::allocator<int> >::__append(unsigned long, int const&)
+0.00%     std::__ndk1::allocator<llama_kv_cells>::destroy[abi:ne180000](llama_kv_cells*)
+0.00%     [kernel.kallsyms][+ffffff8f818559f4]
+0.00%     llama_batch_allocr::init(llama_batch_ext const&, llama_vocab const&, bool)
+0.00%     ggml_backend_buft_get_alloc_size
+0.00%     [kernel.kallsyms][+ffffff8f817a6f78]
+0.00%     _ZNSt6__ndk112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE6appendB8ne180000IPKcTnNS_9enable_ifIXsr31__has_forward_iterator_categoryIT_EE5valueEiE4typeELi0EEERS5_SA_SA_
+0.00%     __bionic_open_tzdata_path(char const*, char const*, int*)
+0.00%     llama_context::decode(llama_batch_ext const&)
+0.00%     std::__ndk1::__fs::filesystem::__dir_stream::advance(std::__ndk1::error_code&)
+0.00%     ggml_gallocr_alloc_graph
+0.00%     [kernel.kallsyms][+ffffff8f81699700]
+0.00%     [kernel.kallsyms][+ffffff8f8249b3cc]
+0.00%     [kernel.kallsyms][+ffffff8f817af940]
+0.00%     [kernel.kallsyms][+ffffff8f817acc90]
+0.00%     [kernel.kallsyms][+ffffff8f816995f4]
+0.00%     [kernel.kallsyms][+ffffff8f8172d054]
+0.00%     [kernel.kallsyms][+ffffff8f8249b3bc]
+0.00%     [kernel.kallsyms][+ffffff8f816995cc]
+0.00%     [kernel.kallsyms][+ffffff8f817c8090]
+0.00%     [kernel.kallsyms][+ffffff8f8170086c]
+0.00%     extents_insert_locked
+0.00%     [kernel.kallsyms][+ffffff8f817a6f44]
+0.00%     ggml_backend_sched_backend_from_buffer(ggml_backend_sched*, ggml_tensor const*, ggml_tensor const*)
+0.00%     [kernel.kallsyms][+ffffff8f817ba630]
+0.00%     [kernel.kallsyms][+ffffff8f817864a4]
+0.00%     [kernel.kallsyms][+ffffff8f817a6f6c]
+0.00%     [kernel.kallsyms][+ffffff8f817a6fa4]
+0.00%     std::__ndk1::__function::__func<llama_context::graph_get_cb() const::$_0, std::__ndk1::allocator<llama_context::graph_get_cb() const::$_0>, void (llama_ubatch const&, ggml_tensor*, char const*, int)>::operator()(llama_ubatch const&, ggml_tensor*&&, char const*&&, int&&)
+0.00%     [kernel.kallsyms][+ffffff8f81785af4]
+0.00%     [kernel.kallsyms][+ffffff8f8178642c]
+0.00%     [kernel.kallsyms][+ffffff8f81786488]
+0.00%     [kernel.kallsyms][+ffffff8f816996a0]
+0.00%     llama_kv_cache::get_v(ggml_context*, int, unsigned int, llama_kv_cache::slot_info const&) const
+0.00%     [kernel.kallsyms][+ffffff8f817acb40]
+0.00%     [kernel.kallsyms][+ffffff8f8249b3b8]
+0.00%     extent_lock2
+0.00%     [kernel.kallsyms][+ffffff8f817acbe8]
+0.00%     [kernel.kallsyms][+ffffff8f817acb64]
+0.00%     [kernel.kallsyms][+ffffff8f81786008]
+0.00%     [kernel.kallsyms][+ffffff8f81799d68]
+0.00%     base_alloc_impl
+0.00%     [kernel.kallsyms][+ffffff8f817007dc]
+0.00%     ggml_format_name
+0.00%     __errno
+0.00%     [kernel.kallsyms][+ffffff8f817acc54]
+0.00%     [kernel.kallsyms][+ffffff8f8178cca0]
+0.00%     extent_interior_register
+0.00%     [kernel.kallsyms][+ffffff8f8178ccc0]
+0.00%     [kernel.kallsyms][+ffffff8f81960fb0]
+0.00%     [kernel.kallsyms][+ffffff8f81785ad8]
+0.00%     std::__ndk1::vector<bool, std::__ndk1::allocator<bool> >::reserve(unsigned long)
+0.00%     [kernel.kallsyms][+ffffff8f817af8d8]
+0.00%     [kernel.kallsyms][+ffffff8f81711c1c]
+0.00%     [kernel.kallsyms][+ffffff8f81699628]
+0.00%     je_arena_extents_dirty_dalloc
+0.00%     extent_record
+0.00%     [kernel.kallsyms][+ffffff8f816996d0]
+0.00%     [kernel.kallsyms][+ffffff8f816995fc]
+0.00%     [kernel.kallsyms][+ffffff8f817a6f28]
+0.00%     [kernel.kallsyms][+ffffff8f816995a4]
+0.00%     [kernel.kallsyms][+ffffff8f817a6f38]
+0.00%     [kernel.kallsyms][+ffffff8f817007f0]
+0.00%     [kernel.kallsyms][+ffffff8f817acb10]
+0.00%     [kernel.kallsyms][+ffffff8f81699580]
+0.00%     [kernel.kallsyms][+ffffff8f817861d4]
+0.00%     [kernel.kallsyms][+ffffff8f817af8d4]
+0.00%     [kernel.kallsyms][+ffffff8f8169960c]
+0.00%     [kernel.kallsyms][+ffffff8f81680cc0]
+0.00%     std::__ndk1::pair<std::__ndk1::__hash_iterator<std::__ndk1::__hash_node<std::__ndk1::__hash_value_type<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, unsigned char>, void*>*>, bool> std::__ndk1::__hash_table<std::__ndk1::__hash_value_type<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, unsigned char>, std::__ndk1::__unordered_map_hasher<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::__hash_value_type<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, unsigned char>, std::__ndk1::hash<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >, std::__ndk1::equal_to<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >, true>, std::__ndk1::__unordered_map_equal<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::__hash_value_type<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, unsigned char>, std::__ndk1::equal_to<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >, std::__ndk1::hash<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > >, true>, std::__ndk1::allocator<std::__ndk1::__hash_value_type<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, unsigned char> > >::__emplace_unique_key_args<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::piecewise_construct_t const&, std::__ndk1::tuple<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >&&>, std::__ndk1::tuple<> >(std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > const&, std::__ndk1::piecewise_construct_t const&, std::__ndk1::tuple<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >&&>&&, std::__ndk1::tuple<>&&)
+0.00%     [kernel.kallsyms][+ffffff8f817acc64]
+0.00%     base_extent_bump_alloc_post
+0.00%     [kernel.kallsyms][+ffffff8f817af8e8]
+0.00%     [kernel.kallsyms][+ffffff8f81747968]
+0.00%     [kernel.kallsyms][+ffffff8f817acc60]
+0.00%     llama_model_loader::get_weight(char const*) const
+0.00%     [linker]std::__1::pair<std::__1::__hash_iterator<std::__1::__hash_node<std::__1::__hash_value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, PropertyValue>, void*>*>, bool> std::__1::__hash_table<std::__1::__hash_value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, PropertyValue>, std::__1::__unordered_map_hasher<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::__hash_value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, PropertyValue>, std::__1::hash<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, true>, std::__1::__unordered_map_equal<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::__hash_value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, PropertyValue>, std::__1::equal_to<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, true>, std::__1::allocator<std::__1::__hash_value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, PropertyValue> > >::__emplace_unique_key_args<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::piecewise_construct_t const&, std::__1::tuple<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&>, std::__1::tuple<> >(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, std::__1::piecewise_construct_t const&, std::__1::tuple<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&>&&, std::__1::tuple<>&&)
+0.00%     llm_graph_context::build_ffn(ggml_tensor*, ggml_tensor*, ggml_tensor*, ggml_tensor*, ggml_tensor*, ggml_tensor*, ggml_tensor*, ggml_tensor*, ggml_tensor*, ggml_tensor*, ggml_tensor*, llm_ffn_op_type, llm_ffn_gate_type, int) const
+0.00%     [linker]ConfigParser::next_token(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >*, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >*, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >*)
+0.00%     [linker]BionicAllocator::free(void*)
+0.00%     llama_model_loader::load_all_data(ggml_context*, std::__ndk1::vector<ggml_backend_buffer*, std::__ndk1::allocator<ggml_backend_buffer*> >&, std::__ndk1::vector<std::__ndk1::unique_ptr<llama_mlock, std::__ndk1::default_delete<llama_mlock> >, std::__ndk1::allocator<std::__ndk1::unique_ptr<llama_mlock, std::__ndk1::default_delete<llama_mlock> > > >*, bool (*)(float, void*), void*)
+0.00%     llama_model_load_from_file_impl(gguf_context*, void (*)(ggml_tensor*, void*), void*, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > const&, std::__ndk1::vector<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >, std::__ndk1::allocator<std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > > >&, __sFILE*, llama_model_params)::$_0::__invoke(float, void*)
+0.00%     [kernel.kallsyms][+ffffff8f817accdc]
+0.00%     getenv
+0.00%     llm_graph_context::build_attn(llm_graph_input_attn_kv*, ggml_tensor*, ggml_tensor*, ggml_tensor*, ggml_tensor*, ggml_tensor*, ggml_tensor*, ggml_tensor*, ggml_tensor*, ggml_tensor*, float, int) const
+0.00%     arena_bin_malloc_hard
+0.00%     ggml_nbytes
+0.00%     [linker]soinfo::prelink_image()
+0.00%     [linker]_rs_rekey
+0.00%     [kernel.kallsyms][+ffffff8f817f2980]
+0.00%     [linker]memchr
+0.00%     [kernel.kallsyms][+ffffff8f817af908]
+0.00%     [kernel.kallsyms][+ffffff8f817f1fd8]
+0.00%     llama_file::impl::tell() const
+0.00%     llama_model_loader::lazy_read::has(ggml_tensor const*) const
+0.00%     [linker]soinfo::link_image(LinkedList<soinfo, SoinfoListAllocator> const&, LinkedList<soinfo, SoinfoListAllocator> const&, android_dlextinfo const*, unsigned long*)
+0.00%     [kernel.kallsyms][+ffffff8f817af928]
+0.00%     [kernel.kallsyms][+ffffff8f82499e54]
+0.00%     [linker]std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >::basic_string(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, unsigned long, unsigned long, std::__1::allocator<char> const&)
+0.00%     [kernel.kallsyms][+ffffff8f816995d4]
+0.00%     [linker]LoadTask::load(address_space_params*)
+0.00%     [kernel.kallsyms][+ffffff8f81680df0]
+0.00%     [linker]ElfReader::ReserveAddressSpace(address_space_params*)
+0.00%     pthread_cond_wait
+0.00%     [kernel.kallsyms][+ffffff8f81785fa8]
+0.00%     [linker]ElfReader::LoadSegments()
+0.00%     __ieee754_exp2f
+0.00%     [kernel.kallsyms][+ffffff8f8172c900]
+0.00%     ggml_is_contiguous_1
+0.00%     [kernel.kallsyms][+ffffff8f818ef760]
+0.00%     [linker]android::base::Trim(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
+0.00%     bionic_trace_end()
+0.00%     __sread
+0.00%     SystemProperties::Serial(prop_info const*)
+0.00%     [kernel.kallsyms][+ffffff8f81683368]
+0.00%     [kernel.kallsyms][+ffffff8f8169957c]
+0.00%     [kernel.kallsyms][+ffffff8f816995ac]
+0.00%     [kernel.kallsyms][+ffffff8f816998c8]
+0.00%     [kernel.kallsyms][+ffffff8f817007f8]
+0.00%     [kernel.kallsyms][+ffffff8f81711c40]
+0.00%     [kernel.kallsyms][+ffffff8f8172d93c]
+0.00%     [kernel.kallsyms][+ffffff8f817a6f24]
+0.00%     [kernel.kallsyms][+ffffff8f817acbd8]
+0.00%     [kernel.kallsyms][+ffffff8f817acc30]
+0.00%     [linker]std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >::basic_string(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)
+0.00%     read

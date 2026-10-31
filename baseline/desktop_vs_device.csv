@@ -1,0 +1,11 @@
+platform,cpu,threads,quant,pp_tok_s,tg_tok_s,ppl
+desktop,Intel i5-6600T,4,q3_k_m,31.49,8.77,6.9467
+desktop,Intel i5-6600T,4,q4_0,61.55,16.89,6.4916
+desktop,Intel i5-6600T,4,q4_k_m,68.62,16.11,6.2404
+desktop,Intel i5-6600T,4,q5_k_m,32.37,5.82,6.1977
+desktop,Intel i5-6600T,4,q8_0,31.34,5.15,6.1012
+device,Snapdragon 630,8,q3_k_m,9.07,5.65,6.995
+device,Snapdragon 630,8,q4_0,9.17,5.60,6.472
+device,Snapdragon 630,8,q4_k_m,8.90,5.59,6.349
+device,Snapdragon 630,8,q5_k_m,6.74,4.12,6.207
+device,Snapdragon 630,8,q8_0,9.86,4.49,6.106

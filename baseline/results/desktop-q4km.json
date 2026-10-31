@@ -1,0 +1,96 @@
+{
+  "label": "desktop-q4km",
+  "timestamp": "2026-10-19T21:50:58",
+  "config": {
+    "backend": "local",
+    "model": "qwen2.5-1.5b-instruct-q4_k_m.gguf",
+    "threads": 4,
+    "build": "3bb63cb",
+    "note": ""
+  },
+  "model_sha256": "6a1a2eb6d15622bf3c96857206351ba97e1af16c30d7a74ee38970e434e9407e",
+  "bench": {
+    "pp128": 82.43,
+    "tg64": 19.34
+  },
+  "ppl": 6.2404,
+  "quality": {
+    "auto_total": 10,
+    "auto_pass": 10,
+    "auto_accuracy": 1.0,
+    "items": [
+      {
+        "id": "arith_01",
+        "pass": true,
+        "answer": "102",
+        "note": null
+      },
+      {
+        "id": "arith_02",
+        "pass": true,
+        "answer": "77",
+        "note": null
+      },
+      {
+        "id": "read_01",
+        "pass": true,
+        "answer": "上海",
+        "note": null
+      },
+      {
+        "id": "read_02",
+        "pass": true,
+        "answer": "A",
+        "note": null
+      },
+      {
+        "id": "extract_01",
+        "pass": true,
+        "answer": "```json\n{\n  \"order_id\": \"A17\",\n  \"amount\": 125\n}\n```",
+        "note": null
+      },
+      {
+        "id": "extract_02",
+        "pass": true,
+        "answer": "```json\n{\n  \"name\": \"李明\",\n  \"city\": \"南京\"\n}\n```",
+        "note": null
+      },
+      {
+        "id": "classify_01",
+        "pass": true,
+        "answer": "positive",
+        "note": null
+      },
+      {
+        "id": "classify_02",
+        "pass": true,
+        "answer": "negative",
+        "note": null
+      },
+      {
+        "id": "unknown_01",
+        "pass": true,
+        "answer": "UNKNOWN",
+        "note": null
+      },
+      {
+        "id": "sort_01",
+        "pass": true,
+        "answer": "```json\n[3, 5, 8]\n```",
+        "note": null
+      },
+      {
+        "id": "translate_01",
+        "pass": null,
+        "answer": "会议在九点开始。",
+        "note": "2分：准确表达会议九点开始；1分：主旨正确但时间或措辞有小问题；0分：意思错误或未翻译。"
+      },
+      {
+        "id": "summary_01",
+        "pass": null,
+        "answer": "团队完成了模型部署，但手机运行十分钟后速度下降，下一步将检查温度和频率变化。",
+        "note": "2分：保留部署完成、持续运行变慢、拟检查温度频率且无杜撰；1分：遗漏一项；0分：严重失真。"
+      }
+    ]
+  }
+}

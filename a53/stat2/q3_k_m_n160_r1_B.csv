@@ -1,0 +1,5 @@
+Performance counter statistics,
+1415085567433,cpu-cycles:u,,(100%),
+923573818168,instructions:u,1.532185,cycles per instruction,(100%),
+28749968436,raw-bus-access:u,,(100%),
+Total test time,93.150222,seconds,

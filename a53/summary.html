@@ -1,0 +1,380 @@
+<!doctype html><html><head><meta charset='utf-8'><title>Why fewer bits stop paying off on a Cortex-A53</title><style>
+@page { size: letter; margin: 11mm 14mm; }
+body { font: 8.7pt/1.27 -apple-system, Helvetica, Arial, sans-serif; color: #111; }
+h1 { font-size: 15pt; margin: 0 0 4px; } h2 { font-size: 11pt; margin: 8px 0 2px; }
+p, li { margin: 1.5px 0; } ul, ol { margin: 2px 0 4px; padding-left: 18px; }
+code { font: 8.6pt Menlo, monospace; background: #f2f2f0; padding: 0 2px; }
+table { border-collapse: collapse; width: 100%; margin: 3px 0 8px; font-size: 8.4pt; page-break-inside: avoid; }
+th, td { border-bottom: 1px solid #ddd; padding: 2px 6px; text-align: right; white-space: nowrap; }
+th { border-bottom: 1.5px solid #888; font-weight: 600; }
+th:first-child, td:first-child { text-align: left; }
+p:has(+ table) { break-after: avoid; } h2 { break-after: avoid; }
+img { width: 44%; display: inline-block; vertical-align: top; }
+</style></head><body><h1>Why fewer bits stop paying off on a Cortex-A53: counters and energy</h1>
+<p>Jiaxuan (Fred) Wen · Oct 2026 · Sonim XP8800 (Snapdragon 630, 8× Cortex-A53, ARMv8.0, no dot-product), Qwen2.5-1.5B-Instruct, llama.cpp <code>23deec0</code>, 8 threads, same five GGUF files as the earlier report (sha256 verified).</p>
+<h2>1. Problem</h2>
+<p>My earlier report found that Q3_K_M, Q4_0 and Q4_K_M all decoded at about 5.6 tok/s, so Q3_K_M was 17% smaller than Q4_K_M but only ~1% faster. It also found that Q5_K_M was the slowest quant. I attributed this to dequantization ("unpacking") cost, but that was an inference, not a measurement. Power (0.6–1.2 W) had also only been estimated while charging.</p>
+<h2>2. Method</h2>
+<p><strong>Counters (simpleperf stat, user-mode only).</strong> Events ran in two groups of ≤4, so every counter had 100% coverage with no multiplexing: {cycles, instructions, L1D refill, L2D refill} and {cycles, instructions, bus access}. To isolate decode, I ran <code>llama-bench -p 0</code> at n = 32 and n = 160 (3 reps each). Per-token value = (X₁₆₀ − X₃₂) / (128 × 3). Every quant was measured twice, in forward and then reverse order.</p>
+<p><strong>Attribution (simpleperf record).</strong> I sampled cycles and instructions at 2 kHz during <code>-p 0 -n 64 -r 2</code> and grouped the symbols into three buckets:</p>
+<ul>
+<li><strong>dot kernels:</strong> <code>ggml_vec_dot_q*</code>, which do dequantization plus multiply-add;</li>
+<li><strong>sync:</strong> <code>ggml_graph_compute_thread</code>, into which <code>ggml_barrier</code> is inlined;</li>
+<li><strong>other:</strong> everything else.</li>
+</ul>
+<p>The recording also covers model load and warm-up, so per-token values are each bucket's sampled share multiplied by the Table 1 per-token total.</p>
+<p><strong>Run hygiene (this mattered).</strong> With 8 threads on 8 cores, one preempted thread leaves the other 7 spinning in <code>ggml_barrier</code>. This injects billions of instructions at IPC ≈ 1.1, even with <code>--poll 0</code>, and in my first pass it made the run-to-run spread larger than the gaps between quants. I therefore:</p>
+<ul>
+<li>ran with <code>--poll 0</code> and <code>-lm none</code>;</li>
+<li>pre-warmed the page cache;</li>
+<li>kept only runs whose tg coefficient of variation was &lt; 2%.</li>
+</ul>
+<p>Kept runs agree to within ±1.5%.</p>
+<p><strong>Energy.</strong> I unplugged USB and sampled the battery's <code>current_now × voltage_now</code> every 0.5 s while running <code>-p 0 -n 256 -r 3</code> with the same flags. The order was ABCDE then EDCBA, with 60 s idle before each run.</p>
+<ul>
+<li>E = (P_run − P_idle) / tg, where P_idle is the mean of the last 40 s of idle and P_run excludes the first 15 s of the run.</li>
+<li>The screen stayed on at fixed brightness, so display power cancels.</li>
+<li>There were no sampling gaps, and the phone reported "Discharging" throughout, from 100% to 90% battery.</li>
+</ul>
+<h2>3. Results</h2>
+<p><strong>Table 1 · Counters, USB power, per decoded token.</strong> Weights are the tensor bytes llama-bench reports (<code>model_size</code>), the same measure in every table and figure. DRAM traffic is bus access × 16 B (the A53's 128-bit beat). Clean-run spread is within ±1.5% of the median; the widest is Q8_0 instructions, 1277–1313 M.</p>
+<table>
+<thead>
+<tr>
+<th>Quant</th>
+<th>Weights (MiB)</th>
+<th>Instr. (M)</th>
+<th>Cycles (M)</th>
+<th>IPC</th>
+<th>DRAM (GB)</th>
+<th>DRAM BW (GB/s)</th>
+<th>tg (tok/s)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Q3_K_M</td>
+<td>876</td>
+<td>1906</td>
+<td>2952</td>
+<td>0.65</td>
+<td>0.96</td>
+<td>5.15</td>
+<td>5.38</td>
+</tr>
+<tr>
+<td>Q4_0</td>
+<td>1011</td>
+<td>1479</td>
+<td>2508</td>
+<td>0.59</td>
+<td>1.08</td>
+<td>6.81</td>
+<td>6.31</td>
+</tr>
+<tr>
+<td>Q4_K_M</td>
+<td>1060</td>
+<td>1637</td>
+<td>2784</td>
+<td>0.59</td>
+<td>1.18</td>
+<td>6.70</td>
+<td>5.67</td>
+</tr>
+<tr>
+<td>Q5_K_M</td>
+<td>1220</td>
+<td>1786</td>
+<td>3011</td>
+<td>0.59</td>
+<td>1.29</td>
+<td>6.81</td>
+<td>5.26</td>
+</tr>
+<tr>
+<td>Q8_0</td>
+<td>1801</td>
+<td>1302</td>
+<td>3458</td>
+<td>0.38</td>
+<td>1.89</td>
+<td>8.59</td>
+<td>4.56</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Table 2 · Where the time and instructions go, per token.</strong> Sampled shares × the Table 1 totals.</p>
+<table>
+<thead>
+<tr>
+<th>Quant</th>
+<th>Dot kernels: % of cycles</th>
+<th>Dot kernels: instr. (M)</th>
+<th>Dot kernels: IPC</th>
+<th>Sync: % of cycles</th>
+<th>Sync: instr. (M)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Q3_K_M</td>
+<td>84.0%</td>
+<td>1468</td>
+<td>0.59</td>
+<td>11.1%</td>
+<td>354</td>
+</tr>
+<tr>
+<td>Q4_0</td>
+<td>82.7%</td>
+<td>1085</td>
+<td>0.52</td>
+<td>12.4%</td>
+<td>332</td>
+</tr>
+<tr>
+<td>Q4_K_M</td>
+<td>82.4%</td>
+<td>1176</td>
+<td>0.51</td>
+<td>12.5%</td>
+<td>380</td>
+</tr>
+<tr>
+<td>Q5_K_M</td>
+<td>82.5%</td>
+<td>1277</td>
+<td>0.51</td>
+<td>12.9%</td>
+<td>431</td>
+</tr>
+<tr>
+<td>Q8_0</td>
+<td>84.9%</td>
+<td>857</td>
+<td>0.29</td>
+<td>10.5%</td>
+<td>363</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Table 3 · Energy, battery power.</strong></p>
+<table>
+<thead>
+<tr>
+<th>Quant</th>
+<th>tg on battery (tok/s)</th>
+<th>ΔP (W)</th>
+<th>J/token (incremental)</th>
+<th>J/token (whole phone)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Q3_K_M</td>
+<td>4.61</td>
+<td>2.79</td>
+<td>0.60</td>
+<td>0.78</td>
+</tr>
+<tr>
+<td>Q4_0</td>
+<td>5.31</td>
+<td>3.16</td>
+<td>0.60</td>
+<td>0.74</td>
+</tr>
+<tr>
+<td>Q4_K_M</td>
+<td>4.99</td>
+<td>2.97</td>
+<td>0.60</td>
+<td>0.75</td>
+</tr>
+<tr>
+<td>Q5_K_M</td>
+<td>4.41</td>
+<td>3.00</td>
+<td>0.68</td>
+<td>0.86</td>
+</tr>
+<tr>
+<td>Q8_0</td>
+<td>3.89</td>
+<td>3.00</td>
+<td>0.77</td>
+<td>0.96</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Counters normalised to Q8_0" src="fig1_counters.png" />
+<img alt="Energy per token" src="fig2_energy.png" /></p>
+<h2>4. Conclusion</h2>
+<p><strong>Fewer bits pay off down to about 4 bits, then stop.</strong></p>
+<ul>
+<li><strong>8 → 4 bits helps.</strong> Q4_0 decodes 38% faster than Q8_0 and uses 23% less energy per token.</li>
+<li><strong>Below that, saved bytes no longer buy time.</strong> DRAM traffic keeps falling with weight size: bus/Q8 is within 0.04 of size/Q8 for every quant. But instructions rise. Q3_K_M executes 16% more instructions than Q4_K_M and 6% more cycles, so it decodes 5% slower despite reading 19% fewer bytes.</li>
+<li><strong>The extra work is unpacking, measured directly.</strong><ul>
+<li>Dot kernels take 82–85% of cycles in every quant.</li>
+<li>Sync stays roughly flat at 330–430 M instructions/token, and it runs at IPC ≈ 1.0–1.1, the signature of spinning.</li>
+<li>Q3_K_M executes ~600 M more instructions per token than Q8_0, and essentially all of it is in the dot kernels (+611 M); sync is ~10 M lower.</li>
+</ul>
+</li>
+<li><strong>Only Q8_0 is memory-bound.</strong> Its dot kernel runs at IPC 0.29, against 0.51–0.59 for the low-bit kernels, and it reaches the highest DRAM bandwidth, 8.6 GB/s.<ul>
+<li>Q4_0, Q4_K_M and Q5_K_M reach 6.7–6.8 GB/s, and Q3_K_M only 5.2 GB/s. Without dot-product instructions, unpacking compute is their limit.</li>
+<li>Q4_0 has the simplest block layout, the fewest kernel instructions and the highest speed.</li>
+</ul>
+</li>
+<li><strong>The ordering is not A53-specific.</strong> A Tesla T4 with an int8 dot-product instruction gives the same ranking, and its Q3_K kernel reads memory at less than half the rate of Q8_0's (§5). So the cost lies in unpacking the 3-bit layout, not only in the missing dot product.</li>
+<li><strong>Energy follows time, not bytes.</strong> Incremental power is nearly flat at 2.8–3.2 W above a 0.78 W screen-on idle.<ul>
+<li>Q4_0, Q4_K_M and Q3_K_M tie at ≈0.60 J/token. Q3_K_M draws the least power, but its longer run time cancels the saving.</li>
+<li>Q5_K_M costs 0.68 J/token and Q8_0 0.77 J/token.</li>
+<li>Whole-phone energy is 0.74–0.96 J/token (median of two passes; single passes range 0.73–0.97).</li>
+<li>My earlier 0.6–1.2 W estimate understated decode power by 2.5–5×.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Three corrections to my earlier report.</strong></p>
+<ol>
+<li><strong>Q3_K_M is not faster than Q4_K_M.</strong> The earlier sweep had Q3_K_M, Q4_0 and Q4_K_M all at ~5.6 tok/s. Clean runs separate them: Q4_0 6.31 &gt; Q4_K_M 5.67 &gt; Q3_K_M 5.38. Single default-flag runs from my first pass (poll 50, mmap; CV ≤ 2.4%) give the same order, 6.40 &gt; 5.99 &gt; 5.69, so the change is not caused by my configuration. The earlier single-pass sweep was most likely compressed by the barrier-spin interference described above.</li>
+<li><strong>Q5_K_M is not the slowest quant.</strong> Clean runs give 5.26 tok/s (5.39 in a single default-flag run), faster than Q8_0's 4.56. The earlier 4.12 was most likely corrupted in the same way.</li>
+<li><strong>My guess that Q5_K_M would execute the most instructions was wrong.</strong> Q3_K_M does.</li>
+</ol>
+<h2>5. Cross-check on a GPU with dp4a</h2>
+<p>If the A53 result came only from the missing dot-product instruction, a processor that has one should decode in proportion to bytes. I tested this on a Tesla T4 (Turing, sm_75, <code>dp4a</code> int8 dot product, 320 GB/s, 70 W cap; driver 580.82.07). I used the same commit <code>23deec0</code> built with CUDA, the same five GGUF files (sha256 identical), all layers on the GPU, and <code>-p 0 -n 128 -r 5</code>, in forward then reverse order.</p>
+<p><strong>Predictions, written down before the run (Oct 30).</strong></p>
+<ul>
+<li><strong>A, bandwidth-bound:</strong> effective bandwidth within 15% across quants, and tg falling monotonically with file size. This would support the dot-product explanation.</li>
+<li><strong>B, overhead-bound:</strong> tg within 10% across quants. The test would then be inconclusive at this model size.</li>
+<li><strong>C, still unpacking-bound:</strong> A53 ordering, with Q3_K_M slower than Q4_K_M.</li>
+</ul>
+<p><strong>Table 4 · Decode speed on the T4.</strong> "Locked" fixes the SM clock at 1110 MHz. "Default" is the stock power-capped clock (SM 1180–1410 MHz). Effective bandwidth = weight size × tg.</p>
+<table>
+<thead>
+<tr>
+<th>Quant</th>
+<th>Weights (MiB)</th>
+<th>T4 tg, locked</th>
+<th>Eff. BW, locked (GB/s)</th>
+<th>T4 tg, default</th>
+<th>Speed vs Q8_0: T4 locked</th>
+<th>Speed vs Q8_0: A53</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Q3_K_M</td>
+<td>876</td>
+<td>128.7</td>
+<td>118</td>
+<td>131.9</td>
+<td>1.24×</td>
+<td>1.18×</td>
+</tr>
+<tr>
+<td>Q4_0</td>
+<td>1011</td>
+<td>153.3</td>
+<td>163</td>
+<td>166.1</td>
+<td>1.48×</td>
+<td>1.38×</td>
+</tr>
+<tr>
+<td>Q4_K_M</td>
+<td>1060</td>
+<td>144.2</td>
+<td>160</td>
+<td>147.2</td>
+<td>1.39×</td>
+<td>1.24×</td>
+</tr>
+<tr>
+<td>Q5_K_M</td>
+<td>1220</td>
+<td>136.2</td>
+<td>174</td>
+<td>137.0</td>
+<td>1.31×</td>
+<td>1.15×</td>
+</tr>
+<tr>
+<td>Q8_0</td>
+<td>1801</td>
+<td>103.7</td>
+<td>196</td>
+<td>108.7</td>
+<td>1.00×</td>
+<td>1.00×</td>
+</tr>
+</tbody>
+</table>
+<p>The default-clock runs did not all pass my pre-registered check. After the reruns, CV was still 1.6–4.3% for Q3_K_M and 1.8–3.2% for Q4_K_M, because the 70 W cap makes the clock fluctuate. The locked runs are clean (two interleaved passes within 1%; CV ≤ 0.5% except one Q4_0 pass at 1.5%), so the verdict rests on them.</p>
+<p><strong>Table 5 · Matrix-vector kernel throughput by weight type (nsys, 129 tokens).</strong> Q3_K_M and Q4_K_M mix several types; each row pools that type's tensors. <code>token_embd</code> is excluded because it is only a row lookup.</p>
+<table>
+<thead>
+<tr>
+<th>Weight type</th>
+<th>Bits/weight</th>
+<th>GB/s</th>
+<th>G weights/s</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Q3_K</td>
+<td>3.44</td>
+<td>95</td>
+<td>221</td>
+</tr>
+<tr>
+<td>Q4_K</td>
+<td>4.50</td>
+<td>161–167</td>
+<td>286–296</td>
+</tr>
+<tr>
+<td>Q6_K</td>
+<td>6.56</td>
+<td>192–225</td>
+<td>234–274</td>
+</tr>
+<tr>
+<td>Q8_0</td>
+<td>8.50</td>
+<td>200</td>
+<td>188</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Verdict: C.</strong></p>
+<ul>
+<li><strong>B is ruled out.</strong> With the clock locked, effective bandwidth varies 1.66× and tg 1.48× across quants. Under nsys the GPU is busy 92–94% of decode time, so launch gaps are small.</li>
+<li><strong>A is ruled out.</strong> Q3_K_M is the second-slowest quant even here: 10.7% slower than Q4_K_M with the clock locked (10.4% at default clocks).</li>
+<li><strong>The cause is the Q3_K kernel.</strong> It moves bytes at less than half the rate of Q8_0 (95 vs 200 GB/s). It also processes fewer weights per second than Q4_K (221 vs 286–296 G/s), even though each Q3_K weight is about one bit smaller.</li>
+<li><strong>The A53 pattern repeats.</strong> Q4_0 is fastest, and fewer bits pay off down to 4 bits and then stop.</li>
+<li><strong>What this changes.</strong> The hypothesis needs revising: <code>dp4a</code> makes the multiply-accumulate cheap, but not the unpacking. Q3_K stores each weight as 2 low bits plus 1 high bit in a separate mask, with 6-bit packed scales, so unpacking costs more than the bytes it saves. This test cannot tell whether that cost is intrinsic to the layout or comes from a less-tuned kernel.</li>
+</ul>
+<h2>6. Limits and next step</h2>
+<ul>
+<li>All A53 results come from one device, one model and one llama.cpp commit.</li>
+<li><strong>Configuration.</strong> The counter runs use <code>--poll 0</code> and no mmap. Q4_K_M runs at 5.67 tok/s here, against 5.59 in the earlier report.</li>
+<li><strong>No weight repacking.</strong> The load logs show that all 339 weight tensors fall back from <code>CPU_REPACK</code> to plain CPU buffers with and without mmap, at identical buffer sizes. As expected without dot-product or i8mm, <code>-lm none</code> does not change the weight layout.</li>
+<li><strong>Sync is an upper bound.</strong> It includes <code>ggml_graph_compute_thread</code>'s scheduling loop as well as the barrier. Symbol shares are sampled, and recording slows tg by ~4–5%.</li>
+<li><strong>PMU events.</strong> These are ARM's generic event names; I did not check their exact semantics against the A53 TRM beyond the byte-count sanity check.</li>
+<li><strong>Energy scope.</strong> Energy is measured for the whole phone at the battery terminal, not SoC rail power.</li>
+<li><strong>Battery speed.</strong> On battery, decode ran 12–16% slower than on USB, uniformly across quants. On USB at the same n = 256, Q4_0 reached 6.07 tok/s with both clusters at maximum frequency, against 5.31 on battery. This points to a lower frequency cap on battery, but I did not log frequency during the battery run. The J/token values describe the battery operating point, which is the one that matters in the field.</li>
+<li><strong>One disturbed pass.</strong> One Q5_K_M energy pass was mildly disturbed (tg CV 6.7%); its two passes still agree within 0.03 J/token.</li>
+<li><strong>T4 run.</strong><ul>
+<li>The 70 W cap binds at default clocks: SM clock varies by quant from about 1180 to 1410 MHz, which the locked run removes.</li>
+<li>The nsys pass is a single run at default clocks and slows tg by 10–13%, so Table 5 gives relative rates, not peak rates.</li>
+<li>Effective bandwidth in Table 4 uses weight size, which includes the row-lookup embedding.</li>
+</ul>
+</li>
+<li><strong>Falsifiable next step.</strong> The T4 run covers half of the earlier proposal: a dot-product instruction alone does not make Q3_K_M beat Q4_K_M. The other half is to repeat on an ARM core with <code>sdot</code>/<code>udot</code> (ARMv8.2+).<ul>
+<li>Given the T4 result, I now predict that the dot-kernel instruction gap to Q8_0 shrinks but Q3_K_M still loses to Q4_K_M.</li>
+<li>If Q3_K_M wins there, the A53's extra cost is specific to its NEON unpacking path.</li>
+</ul>
+</li>
+</ul></body></html>

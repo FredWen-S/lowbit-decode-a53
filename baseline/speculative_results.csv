@@ -1,0 +1,5 @@
+target,draft,draft_max,spec_tok_s,accept_pct,baseline_tok_s,speedup
+Qwen2.5-1.5B-Q4_K_M,Qwen2.5-0.5B-Q4_K_M,3,1.447,54.7,5.59,0.26
+Qwen2.5-1.5B-Q4_K_M,Qwen2.5-0.5B-Q4_K_M,8,1.020,27.8,5.59,0.18
+Qwen2.5-3B-Q4_K_M,Qwen2.5-0.5B-Q4_K_M,3,0.602,45.5,2.88,0.21
+Qwen2.5-3B-Q4_K_M,Qwen2.5-0.5B-Q4_K_M,8,0.540,23.9,2.88,0.19

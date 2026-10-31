@@ -1,0 +1,6 @@
+Performance counter statistics,
+4520311167505,cpu-cycles:u,,(100%),
+4584423169873,instructions:u,0.986015,cycles per instruction,(100%),
+1457605522,raw-l1-dcache-refill:u,,(100%),
+6371648333,raw-l2-dcache-refill:u,,(100%),
+Total test time,397.583376,seconds,

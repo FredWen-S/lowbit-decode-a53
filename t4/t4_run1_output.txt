@@ -1,0 +1,83 @@
+Colab T4 run, 2026-10-30 (copied from the notebook output)
+
+GPU: Tesla T4, driver 580.82.07, 15360 MiB, max SM 1590 MHz, max mem 5001 MHz, power limit 70 W
+llama.cpp 23deec025 devops: incorrect COPY instruction (#30529), CUDA sm_75
+sha256: all 5 GGUFs OK (byte-identical to phone copies)
+Sanity: ggml_cuda_init found Tesla T4 cc 7.5; Q3_K - Medium 875.96 MiB, 1.78 B params, tg32 93.55
+
+Experiment 1 (-ngl 99 -p 0 -n 128 -r 5; rerun if cv>2%)
+fwd q3_k_m  try 1:   135.5 tok/s  cv  1.8%
+fwd q4_0    try 1:   165.0 tok/s  cv  4.1%
+fwd q4_0    try 2:   167.8 tok/s  cv  0.2%
+fwd q4_k_m  try 1:   147.1 tok/s  cv  3.8%
+fwd q4_k_m  try 2:   148.9 tok/s  cv  0.2%
+fwd q5_k_m  try 1:   137.7 tok/s  cv  2.8%
+fwd q5_k_m  try 2:   137.9 tok/s  cv  0.4%
+fwd q8_0    try 1:   107.9 tok/s  cv  3.1%
+fwd q8_0    try 2:   108.9 tok/s  cv  0.1%
+rev q8_0    try 1:   107.8 tok/s  cv  2.1%
+rev q8_0    try 2:   108.4 tok/s  cv  0.1%
+rev q5_k_m  try 1:   135.1 tok/s  cv  2.6%
+rev q5_k_m  try 2:   136.1 tok/s  cv  0.4%
+rev q4_k_m  try 1:   144.7 tok/s  cv  2.7%
+rev q4_k_m  try 2:   145.4 tok/s  cv  0.4%
+rev q4_0    try 1:   162.5 tok/s  cv  3.8%
+rev q4_0    try 2:   164.3 tok/s  cv  0.3%
+rev q3_k_m  try 1:   127.1 tok/s  cv  3.5%
+rev q3_k_m  try 2:   128.3 tok/s  cv  0.3%
+
+Experiment 2: nsys 2025.3.1.0, kern sums for q3_k_m, q4_k_m, q8_0
+
+Analysis cell:
+ quant  MiB  a53_tg  t4_tg  GBps  pct_of_320  cv_pct  fwd_rev_gap_pct  gpu_busy_pct  mmv_share_pct  kernel_GBps
+q3_k_m  882    5.38  131.9 121.9        38.1     1.8              5.5         103.3           80.6        146.4
+  q4_0 1017    6.31  166.1 177.1        55.3     0.3              2.1           NaN            NaN          NaN
+q4_k_m 1066    5.67  147.2 164.4        51.4     0.4              2.4         106.0           77.8        199.5
+q5_k_m 1226    5.26  137.0 176.1        55.0     0.4              1.2           NaN            NaN          NaN
+  q8_0 1807    4.56  108.7 205.9        64.3     0.1              0.4         105.5           84.5        230.9
+
+BW max/min = 1.69   tg max/min = 1.53   tg monotonic decreasing: False   Q3_K_M slower than Q4_K_M: True
+SM clock MHz 1st half 842 / 2nd half 876;  power max 95.1 W;  temp max 58 C   (whole log incl. idle gaps)
+NEEDS RERUN (cv>2% or fwd/rev gap>3%): ['q3_k_m']
+VERDICT: C (still unpacking-bound)
+
+Notes: MiB here is file size (incl. metadata/vocab), slightly above the A53 report's tensor-size MiB.
+gpu_busy_pct > 100% because the nsys-profiled run is slower than the tg used for the wall estimate.
+
+=== Cell 8: pre-registered rerun of q3_k_m (fwd/rev gap 5.5% > 3%), interleaved with q4_k_m ===
+rerun q3_k_m    133.0 tok/s  cv  3.5%
+rerun q4_k_m    148.4 tok/s  cv  1.8%
+rerun q3_k_m    130.9 tok/s  cv  4.3%
+rerun q4_k_m    146.6 tok/s  cv  2.8%
+rerun q3_k_m    131.9 tok/s  cv  1.6%
+rerun q4_k_m    146.4 tok/s  cv  3.2%
+q3_k_m mean 131.9 [130.9-133.0]; q4_k_m mean 147.2 [146.4-148.4]
+
+SM clock / power inside each bench window (Exp1; "_1" windows include model load at idle clock):
+fwd_q3_k_m_1  sm 1228  W 61.3 max 69.8 | fwd_q4_0_2 sm 1408 W 66.6 | fwd_q4_k_m_2 sm 1293 W 61.9 | fwd_q5_k_m_2 sm 1242 W 62.7 | fwd_q8_0_2 sm 1317 W 64.8
+rev_q8_0_2 sm 1325 W 63.3 | rev_q5_k_m_2 sm 1222 W 62.2 | rev_q4_k_m_2 sm 1242 W 63.8 | rev_q4_0_2 sm 1359 W 62.2 | rev_q3_k_m_2 sm 1184 W 67.4 (max 95.1 spike)
+mem clock 5000 MHz in all kept windows. Power cap 70 W is binding: SM clock 1180-1410, never 1590.
+
+nsys (under profiler) tg128: Q3_K_M 118.61, Q4_K_M 128.18, Q8_0 97.30
+kernel total ms (129 tokens): Q3_K_M 1010.8, Q4_K_M 929.0, Q8_0 1252.4
+=> GPU busy = kernel time / (129/tg_nsys): Q3_K_M 93%, Q4_K_M 92%, Q8_0 94%  (launch gaps small; rules out B)
+Top kernels: Q3_K_M: mmvq Q3_K 49.0%, Q4_K 19.9%, Q6_K(output) 10.9%, quantize_q8_1 6.1%, flash_attn 5.1%, rms_norm 4.0%
+             Q4_K_M: mmvq Q4_K 52.0%, Q6_K fused 13.2%, Q6_K(output) 12.5%, quantize_q8_1 7.0%, flash_attn 5.8%, rms_norm 4.6%
+             Q8_0:   mmvq Q8_0 72.8% + 11.7% (non-fused), quantize_q8_1 4.9%, flash_attn 4.1%, rms_norm 3.2%
+
+=== Cell 9: matvec bandwidth per weight type (token_embd excluded: row lookup only) ===
+token_embd: Q3_K 100.3 MB in Q3_K_M, Q4_K 131.3 MB in Q4_K_M, Q8_0 248.0 MB in Q8_0; output.weight is a separate tensor in all three
+Q3_K_M  Q3_K  364.3 MB/token 3.44 bit/w  3.840 ms/token   94.9 GB/s  220.8 Gweights/s
+Q3_K_M  Q4_K  251.9 MB/token 4.50 bit/w  1.566 ms/token  160.9 GB/s  286.0 Gweights/s
+Q3_K_M  Q5_K   10.0 MB/token 5.50 bit/w  0.058 ms/token  173.2 GB/s  251.9 Gweights/s
+Q3_K_M  Q6_K  191.4 MB/token 6.56 bit/w  0.851 ms/token  224.9 GB/s  274.2 Gweights/s
+Q4_K_M  Q4_K  625.5 MB/token 4.50 bit/w  3.755 ms/token  166.6 GB/s  296.1 Gweights/s
+Q4_K_M  Q6_K  354.0 MB/token 6.56 bit/w  1.846 ms/token  191.8 GB/s  233.8 Gweights/s
+Q8_0    Q8_0 1640.0 MB/token 8.50 bit/w  8.204 ms/token  199.9 GB/s  188.1 Gweights/s
+
+=== Cell 10: SM clock locked (nvidia-smi -lgc 1100 -> 1110 MHz actual), 2 interleaved passes, then -rgc ===
+locked q3_k_m 128.6/128.7  cv 0.2%   W mean 58.8 max 68.1
+locked q4_0   152.6/153.9  cv 0.3-1.5% W mean 53.5 max 63.3
+locked q4_k_m 144.1/144.2  cv 0.3%   W mean 58.3 max 69.4
+locked q5_k_m 136.0/136.3  cv 0.4-0.5% W mean 60.0 max 70.3
+locked q8_0   103.6/103.7  cv 0.2-0.4% W mean 56.9 max 65.7

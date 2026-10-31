@@ -1,0 +1,144 @@
+{
+  "q3_k_m": {
+    "tg": 5.144554,
+    "tg_cv": 0.004561522728695237,
+    "cpu-cycles": {
+      "dot_pct": 83.97,
+      "sync_pct": 11.12,
+      "other_pct": 4.910000000000002,
+      "dot_kernels": {
+        "ggml_vec_dot_q3_K_q8_K": 47.71,
+        "ggml_vec_dot_q4_K_q8_K": 18.84,
+        "ggml_vec_dot_q6_K_q8_K": 16.7,
+        "ggml_vec_dot_q5_K_q8_K": 0.72
+      },
+      "dot_per_tok_M": 2478.455162438776,
+      "sync_per_tok_M": 328.2174753640489
+    },
+    "instructions": {
+      "dot_pct": 77.01,
+      "sync_pct": 18.55,
+      "other_pct": 4.439999999999994,
+      "dot_kernels": {
+        "ggml_vec_dot_q3_K_q8_K": 49.18,
+        "ggml_vec_dot_q4_K_q8_K": 16.72,
+        "ggml_vec_dot_q6_K_q8_K": 10.47,
+        "ggml_vec_dot_q5_K_q8_K": 0.64
+      },
+      "dot_per_tok_M": 1468.1810151910677,
+      "sync_per_tok_M": 353.65222479930276
+    },
+    "dot_ipc": 0.5923774766804302,
+    "sync_ipc": 1.077493586857441
+  },
+  "q4_0": {
+    "tg": 5.843367,
+    "tg_cv": 0.008113986336986878,
+    "cpu-cycles": {
+      "dot_pct": 82.67,
+      "sync_pct": 12.38,
+      "other_pct": 4.9499999999999975,
+      "dot_kernels": {
+        "ggml_vec_dot_q4_0_q8_0": 63.21,
+        "ggml_vec_dot_q6_K_q8_K": 19.46
+      },
+      "dot_per_tok_M": 2073.3117612189085,
+      "sync_per_tok_M": 310.4826370374995
+    },
+    "instructions": {
+      "dot_pct": 73.39,
+      "sync_pct": 22.450000000000003,
+      "other_pct": 4.159999999999997,
+      "dot_kernels": {
+        "ggml_vec_dot_q4_0_q8_0": 60.49,
+        "ggml_vec_dot_q6_K_q8_K": 12.9
+      },
+      "dot_per_tok_M": 1085.1641841159137,
+      "sync_per_tok_M": 331.95170913479035
+    },
+    "dot_ipc": 0.5233965312953905,
+    "sync_ipc": 1.0691474161071939
+  },
+  "q4_k_m": {
+    "tg": 5.421426,
+    "tg_cv": 0.00746464122170071,
+    "cpu-cycles": {
+      "dot_pct": 82.39,
+      "sync_pct": 12.47,
+      "other_pct": 5.139999999999999,
+      "dot_kernels": {
+        "ggml_vec_dot_q4_K_q8_K": 49.57,
+        "ggml_vec_dot_q6_K_q8_K": 32.82
+      },
+      "dot_per_tok_M": 2294.0852749605656,
+      "sync_per_tok_M": 347.2174217594157
+    },
+    "instructions": {
+      "dot_pct": 71.85,
+      "sync_pct": 23.23,
+      "other_pct": 4.920000000000005,
+      "dot_kernels": {
+        "ggml_vec_dot_q4_K_q8_K": 49.35,
+        "ggml_vec_dot_q6_K_q8_K": 22.5
+      },
+      "dot_per_tok_M": 1176.209607575537,
+      "sync_per_tok_M": 380.28321759192386
+    },
+    "dot_ipc": 0.5127139868834019,
+    "sync_ipc": 1.0952308085952531
+  },
+  "q5_k_m": {
+    "tg": 4.835391,
+    "tg_cv": 0.021709929972570985,
+    "cpu-cycles": {
+      "dot_pct": 82.49,
+      "sync_pct": 12.89,
+      "other_pct": 4.6200000000000045,
+      "dot_kernels": {
+        "ggml_vec_dot_q5_K_q8_K": 52.29,
+        "ggml_vec_dot_q6_K_q8_K": 30.2
+      },
+      "dot_per_tok_M": 2483.5515378883792,
+      "sync_per_tok_M": 388.0831533929108
+    },
+    "instructions": {
+      "dot_pct": 71.51,
+      "sync_pct": 24.16,
+      "other_pct": 4.329999999999995,
+      "dot_kernels": {
+        "ggml_vec_dot_q5_K_q8_K": 51.67,
+        "ggml_vec_dot_q6_K_q8_K": 19.84
+      },
+      "dot_per_tok_M": 1276.9754153737254,
+      "sync_per_tok_M": 431.4323316379417
+    },
+    "dot_ipc": 0.5141731089097769,
+    "sync_ipc": 1.111700747290987
+  },
+  "q8_0": {
+    "tg": 4.310312,
+    "tg_cv": 0.01973221428054396,
+    "cpu-cycles": {
+      "dot_pct": 84.9,
+      "sync_pct": 10.530000000000001,
+      "other_pct": 4.569999999999993,
+      "dot_kernels": {
+        "ggml_vec_dot_q8_0_q8_0": 84.9
+      },
+      "dot_per_tok_M": 2935.6034716348204,
+      "sync_per_tok_M": 364.09781573986646
+    },
+    "instructions": {
+      "dot_pct": 65.85,
+      "sync_pct": 27.9,
+      "other_pct": 6.250000000000007,
+      "dot_kernels": {
+        "ggml_vec_dot_q8_0_q8_0": 65.85
+      },
+      "dot_per_tok_M": 857.3420432186912,
+      "sync_per_tok_M": 363.2474260562109
+    },
+    "dot_ipc": 0.2920496761578097,
+    "sync_ipc": 0.9976643922405095
+  }
+}

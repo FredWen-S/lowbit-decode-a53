@@ -1,0 +1,12 @@
+{"id":"arith_01","prompt":"只输出计算结果，不要解释：17 × 6 = ?","check":{"type":"exact","value":"102"}}
+{"id":"arith_02","prompt":"只输出计算结果，不要解释：125 - 48 = ?","check":{"type":"exact","value":"77"}}
+{"id":"read_01","prompt":"资料：小林周一在北京，周二到上海，周三到杭州。问题：小林周二在哪座城市？只输出城市名。","check":{"type":"exact","value":"上海"}}
+{"id":"read_02","prompt":"资料：项目 A 的预算为 120 元，项目 B 的预算为 90 元。哪一个项目预算更高？只输出 A 或 B。","check":{"type":"exact","value":"A"}}
+{"id":"extract_01","prompt":"从“订单编号 A17，总额 125 元”提取信息。只输出 JSON 对象，字段 order_id 为字符串、amount 为数字，不要 Markdown。","check":{"type":"json","value":{"order_id":"A17","amount":125}}}
+{"id":"extract_02","prompt":"从“姓名李明，城市南京”提取信息。只输出 JSON 对象，字段 name 和 city，不要 Markdown。","check":{"type":"json","value":{"name":"李明","city":"南京"}}}
+{"id":"classify_01","prompt":"把文本分为 positive 或 negative。文本：The service was excellent and I loved it. 只输出类别。","check":{"type":"exact","value":"positive"}}
+{"id":"classify_02","prompt":"把文本分为 positive 或 negative。文本：The product broke immediately and was terrible. 只输出类别。","check":{"type":"exact","value":"negative"}}
+{"id":"unknown_01","prompt":"仅依据资料回答。资料：李华住在成都。问题：李华几岁？资料不足时只输出 UNKNOWN。","check":{"type":"exact","value":"UNKNOWN"}}
+{"id":"sort_01","prompt":"将整数 8, 3, 5 从小到大排序。只输出 JSON 数组，不要解释。","check":{"type":"json","value":[3,5,8]}}
+{"id":"translate_01","prompt":"将 The meeting starts at nine. 翻译成中文。","check":{"type":"manual","rubric":"2分：准确表达会议九点开始；1分：主旨正确但时间或措辞有小问题；0分：意思错误或未翻译。"}}
+{"id":"summary_01","prompt":"用一句中文概括：团队完成了模型部署，但手机连续运行十分钟后速度下降。下一步将检查温度与频率变化。","check":{"type":"manual","rubric":"2分：保留部署完成、持续运行变慢、拟检查温度频率且无杜撰；1分：遗漏一项；0分：严重失真。"}}

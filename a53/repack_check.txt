@@ -1,0 +1,30 @@
+== q3_k_m lm=none
+done_getting_tensors: tensor 'token_embd.weight' (q3_K) (and 338 others) cannot be used with preferred buffer type CPU_REPACK, using CPU instead
+load_tensors:          CPU model buffer size =   875.96 MiB
+== q3_k_m lm=mmap
+done_getting_tensors: tensor 'token_embd.weight' (q3_K) (and 338 others) cannot be used with preferred buffer type CPU_REPACK, using CPU instead
+load_tensors:   CPU_Mapped model buffer size =   875.96 MiB
+== q4_0 lm=none
+done_getting_tensors: tensor 'token_embd.weight' (q4_0) (and 338 others) cannot be used with preferred buffer type CPU_REPACK, using CPU instead
+load_tensors:          CPU model buffer size =  1011.16 MiB
+== q4_0 lm=mmap
+done_getting_tensors: tensor 'token_embd.weight' (q4_0) (and 338 others) cannot be used with preferred buffer type CPU_REPACK, using CPU instead
+load_tensors:   CPU_Mapped model buffer size =  1011.16 MiB
+== q4_k_m lm=none
+done_getting_tensors: tensor 'token_embd.weight' (q4_K) (and 338 others) cannot be used with preferred buffer type CPU_REPACK, using CPU instead
+load_tensors:          CPU model buffer size =  1059.89 MiB
+== q4_k_m lm=mmap
+done_getting_tensors: tensor 'token_embd.weight' (q4_K) (and 338 others) cannot be used with preferred buffer type CPU_REPACK, using CPU instead
+load_tensors:   CPU_Mapped model buffer size =  1059.89 MiB
+== q5_k_m lm=none
+done_getting_tensors: tensor 'token_embd.weight' (q5_K) (and 338 others) cannot be used with preferred buffer type CPU_REPACK, using CPU instead
+load_tensors:          CPU model buffer size =  1220.27 MiB
+== q5_k_m lm=mmap
+done_getting_tensors: tensor 'token_embd.weight' (q5_K) (and 338 others) cannot be used with preferred buffer type CPU_REPACK, using CPU instead
+load_tensors:   CPU_Mapped model buffer size =  1220.27 MiB
+== q8_0 lm=none
+done_getting_tensors: tensor 'token_embd.weight' (q8_0) (and 338 others) cannot be used with preferred buffer type CPU_REPACK, using CPU instead
+load_tensors:          CPU model buffer size =  1801.09 MiB
+== q8_0 lm=mmap
+done_getting_tensors: tensor 'token_embd.weight' (q8_0) (and 338 others) cannot be used with preferred buffer type CPU_REPACK, using CPU instead
+load_tensors:   CPU_Mapped model buffer size =  1801.09 MiB
