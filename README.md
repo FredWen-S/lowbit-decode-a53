@@ -7,6 +7,8 @@ Qwen2.5-1.5B-Instruct in five GGUF quants · llama.cpp `23deec0`, 8 threads · c
 Tesla T4 (sm_75, `dp4a`).
 
 **Full write-up:** [`a53/summary.md`](a53/summary.md) ([PDF](a53/summary.pdf), 3 pages).
+**Discussion:** [ggml-org/llama.cpp#31507](https://github.com/ggml-org/llama.cpp/discussions/31507).
+
 [![reproduce](https://github.com/FredWen-S/lowbit-decode-a53/actions/workflows/reproduce.yml/badge.svg)](.github/workflows/reproduce.yml)
 
 ![Decode speed, energy and MMLU accuracy against weight size for five quants](a53/fig0_overview.png)
