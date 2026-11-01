@@ -7,21 +7,35 @@ Qwen2.5-1.5B-Instruct in five GGUF quants · llama.cpp `23deec0`, 8 threads · c
 Tesla T4 (sm_75, `dp4a`).
 
 **Full write-up:** [`a53/summary.md`](a53/summary.md) ([PDF](a53/summary.pdf), 3 pages).
+[![reproduce](https://github.com/FredWen-S/lowbit-decode-a53/actions/workflows/reproduce.yml/badge.svg)](.github/workflows/reproduce.yml)
+
+![Decode speed, energy and MMLU accuracy against weight size for five quants](a53/fig0_overview.png)
+
+1. **4 bits is the sweet spot on this phone.** Q4_0 decodes 38% faster than Q8_0 and uses 23%
+   less energy per token, and Q4_K_M stays within noise of Q8_0 on MMLU. Going to Q3_K_M makes
+   decode *slower* (−5% vs Q4_K_M) and costs accuracy: −2.2 ± 0.7 pp MMLU and +12.5% WikiText-2
+   perplexity.
+2. **Low-bit decode on an ARMv8.0 core is compute-bound, not memory-bound.** The dot kernels take
+   82–85% of cycles, and K-quant unpacking adds instructions faster than fewer bytes save time.
+   Only Q8_0 is limited by DRAM bandwidth, and energy follows time, not bytes.
+3. **Because of that, speculative decoding cannot pay off here.** Checking 5 tokens in one batch
+   costs 3.6× a single decode step, so a 0.5B draft model halves decode speed (0.5×, 54 paired
+   runs), even at 66–72% acceptance.
 
 ## Result in one table
 
-| Quant | Weights (MiB) | A53 decode (tok/s) | A53 energy (J/token) | Perplexity (Δ vs Q8_0) | T4 decode, clock locked (tok/s) |
-|---|---|---|---|---|---|
-| Q3_K_M | 876 | 5.38 | 0.60 | 6.995 (+14.6%) | 128.7 |
-| **Q4_0** | 1011 | **6.31** | **0.60** | 6.472 (+6.0%) | **153.3** |
-| Q4_K_M | 1060 | 5.67 | 0.60 | 6.349 (+4.0%) | 144.2 |
-| Q5_K_M | 1220 | 5.26 | 0.68 | 6.207 (+1.6%) | 136.2 |
-| Q8_0 | 1801 | 4.56 | 0.77 | 6.106 | 103.7 |
+| Quant | Weights (MiB) | A53 decode (tok/s) | A53 energy (J/token) | WikiText-2 PPL (Δ vs Q8_0) | MMLU (Δ vs Q8_0, pp) | T4 decode, clock locked (tok/s) |
+|---|---|---|---|---|---|---|
+| Q3_K_M | 876 | 5.38 | 0.60 | 11.64 (+12.5%) | 33.9 (−2.2 ± 0.7) | 128.7 |
+| **Q4_0** | 1011 | **6.31** | **0.60** | 10.87 (+5.1%) | 34.9 (−1.1 ± 0.6) | **153.3** |
+| Q4_K_M | 1060 | 5.67 | 0.60 | 10.80 (+4.5%) | 35.9 (−0.2 ± 0.6) | 144.2 |
+| Q5_K_M | 1220 | 5.26 | 0.68 | 10.46 (+1.1%) | 36.2 (+0.1 ± 0.5) | 136.2 |
+| Q8_0 | 1801 | 4.56 | 0.77 | 10.34 | 36.0 | 103.7 |
 
 Decode speeds are from clean runs (coefficient of variation < 2%). Energy is incremental battery
-energy per decoded token with USB unplugged. Perplexity comes from the earlier sweep in
-[`baseline/`](baseline/) and uses a small text, so read the caveat under
-[Limits](#limits).
+energy per decoded token with USB unplugged. Accuracy differences are paired against Q8_0 on the
+same items (± one standard error). HellaSwag, WinoGrande and the method are in
+[`accuracy/`](accuracy/).
 
 ## What the counters show
 
@@ -73,6 +87,7 @@ model and versions are in [`spec/`](spec/).
 |---|---|
 | [`a53/`](a53/) | Phone study: driver scripts, raw `simpleperf` and battery data, analysis scripts, results JSON, figures, write-up. [`a53/RUNS.md`](a53/RUNS.md) maps each data folder to the command that produced it |
 | [`t4/`](t4/) | Colab notebook for the T4 cross-check, its generator script, pre-registered predictions (in Chinese, dated before the run) and the copied run output |
+| [`accuracy/`](accuracy/) | WikiText-2 perplexity, HellaSwag, WinoGrande and MMLU for the five quants: run script, full logs, results with paired differences |
 | [`spec/`](spec/) | Paired speculative-decoding runs on the phone (baseline, fixed, adaptive), batch verification timings, summary script |
 | [`baseline/`](baseline/) | Earlier sweep (Oct 2026): perplexity script and text, desktop vs phone comparison, thermal log, speculative-decoding results, and a small benchmark harness with a 12-prompt regression set |
 
@@ -105,7 +120,9 @@ Push `llama-bench`, the `lib*.so` files and the models to `/data/local/tmp/llm`,
 
 **Re-analysing without a phone.** All raw data is committed. The analysis scripts in `a53/` use
 only the Python standard library, and rerunning them reproduces the committed JSON files exactly
-(see `a53/RUNS.md`).
+(see `a53/RUNS.md`). CI reruns the A53, speculative-decoding and accuracy analyses on every push
+and fails if any committed JSON changes. The overview figure comes from `a53/plot_overview.py`,
+which needs matplotlib.
 
 **T4.** Open [`t4/t4_crosscheck.ipynb`](t4/t4_crosscheck.ipynb) in Colab on a T4 runtime and run
 all cells (about 30–40 minutes, mostly the build). The clock-locked runs and per-weight-type
@@ -113,9 +130,11 @@ kernel throughput are in [`t4/t4_run1_output.txt`](t4/t4_run1_output.txt).
 
 ## Limits
 
-- One phone, one model, one llama.cpp commit.
-- Perplexity uses an 839-token Chinese text at `-c 256`. Its error is about ±0.6–0.7, so only
-  Q3_K_M's +14.6% is clearly outside the noise. A WikiText-2 run is still to do.
+- One phone, one model. The phone study uses llama.cpp `23deec0`. Accuracy runs used `42916d8` on
+  an x86 CPU, and the speculative runs used `42916d8` with the adaptive controller added. Accuracy
+  does not depend on the device, but kernels differ slightly between builds.
+- Task sets are modest: 400 HellaSwag tasks, the full WinoGrande and MMLU validation sets. Single
+  2-SE differences out of the 16 comparisons should be read as suggestive.
 - Energy is whole-phone at the battery terminal, not SoC rail power. Decode on battery ran 12–16%
   slower than on USB, which points to a lower frequency cap that I did not log.
 - PMU events are ARM's generic names; I checked them only against the byte-count sanity check, not

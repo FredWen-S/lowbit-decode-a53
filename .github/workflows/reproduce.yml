@@ -20,5 +20,7 @@ jobs:
           python analyze_symbols.py
       - name: Rerun speculative-decoding summary
         run: python spec/summarize_spec.py
+      - name: Rebuild accuracy results from the committed logs
+        run: python accuracy/run_accuracy.py --parse-only
       - name: Results must match the committed JSON exactly
-        run: git diff --exit-code -- a53/*.json spec/*.json
+        run: git diff --exit-code -- a53/*.json spec/*.json accuracy/*.json
