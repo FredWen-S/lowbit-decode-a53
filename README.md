@@ -50,12 +50,30 @@ between quants. Running with `--poll 0 -lm none`, pre-warming the page cache, an
 with CV < 2% fixed it. It also overturned two findings of my earlier sweep: Q3_K_M is not faster
 than Q4_K_M, and Q5_K_M is not the slowest quant (details in §4 of the write-up).
 
+## Speculative decoding: compute-bound decode caps it at 1×
+
+With a 0.5B Q4_K_M draft, speculative decoding of the 1.5B Q4_K_M target ran at half the baseline
+speed. The test used 54 paired runs on the phone, `-t 4`, and outputs were identical across modes.
+
+| Mode | Decode (tok/s, median) | Acceptance | vs baseline |
+|---|---|---|---|
+| baseline | 3.55 | – | 1.00× |
+| fixed draft length 4 | 1.81 | 65.7% | 0.51× |
+| adaptive draft length (EWMA of acceptance) | 1.77 | 71.8% | 0.50× |
+
+The adaptive controller beats the fixed length on low-acceptance chat prompts (1.25×), but neither
+mode can win on this core. Checking 5 tokens in one target batch takes 3.6× as long as decoding one
+token, because decode here is compute-bound, not memory-bound. With the draft model's cost added,
+the best possible speedup is 0.96–1.02× even when every draft token is accepted. Data, the cost
+model and versions are in [`spec/`](spec/).
+
 ## Repository layout
 
 | Path | Contents |
 |---|---|
 | [`a53/`](a53/) | Phone study: driver scripts, raw `simpleperf` and battery data, analysis scripts, results JSON, figures, write-up. [`a53/RUNS.md`](a53/RUNS.md) maps each data folder to the command that produced it |
 | [`t4/`](t4/) | Colab notebook for the T4 cross-check, its generator script, pre-registered predictions (in Chinese, dated before the run) and the copied run output |
+| [`spec/`](spec/) | Paired speculative-decoding runs on the phone (baseline, fixed, adaptive), batch verification timings, summary script |
 | [`baseline/`](baseline/) | Earlier sweep (Oct 2026): perplexity script and text, desktop vs phone comparison, thermal log, speculative-decoding results, and a small benchmark harness with a 12-prompt regression set |
 
 ## Reproducing

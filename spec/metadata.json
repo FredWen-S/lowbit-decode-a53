@@ -1,0 +1,42 @@
+{
+  "exe": "/data/local/tmp/llm/lab/llama-lab-speculative",
+  "target": "/data/local/tmp/llm/qwen2.5-1.5b-instruct-q4_k_m.gguf",
+  "draft": "/data/local/tmp/llm/qwen2.5-0.5b-instruct-q4_k_m.gguf",
+  "pair": "qwen1.5b-q4km__qwen0.5b-q4km",
+  "backend": "adb",
+  "serial": "d5a06abf",
+  "prompts": "data/speculative-prompts.jsonl",
+  "repeats": 3,
+  "threads": 4,
+  "tokens": 128,
+  "fixed_length": 4,
+  "context": 2048,
+  "cooldown": 20.0,
+  "timeout": 1800,
+  "out": "results/android-a53-spec-01",
+  "prompt_ids": [
+    "code-1",
+    "code-2",
+    "chat-1",
+    "chat-2",
+    "summary-1",
+    "summary-2"
+  ],
+  "prompts_sha256": "7aefbe21d7d77d6241863616c3e2719ee0ad42023f2e819cec93736a46b344ca",
+  "hashes": {
+    "exe": "8867f6d7fed9294e0c46f7831e8416805e66c55121cc8e3ee32f6ac55f677902",
+    "target": "6a1a2eb6d15622bf3c96857206351ba97e1af16c30d7a74ee38970e434e9407e",
+    "draft": "74a4da8c9fdbcd15bd1f6d01d621410d31c6fc00986f5eb687824e7b93d7a9db"
+  },
+  "device": {
+    "ro.product.model": "XP8800",
+    "ro.soc.model": "",
+    "ro.soc.manufacturer": "",
+    "ro.product.cpu.abi": "arm64-v8a",
+    "ro.build.version.sdk": "29",
+    "ro.kernel.qemu": "",
+    "ro.boot.qemu": "",
+    "device_kind": "physical"
+  },
+  "measurement_scope": "physical"
+}

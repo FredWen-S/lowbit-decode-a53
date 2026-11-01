@@ -1,0 +1,102 @@
+{
+  "identical_outputs": true,
+  "all": {
+    "baseline": {
+      "runs": 18,
+      "tok_s_median": 3.554
+    },
+    "fixed": {
+      "runs": 18,
+      "tok_s_median": 1.81,
+      "acceptance": 0.657,
+      "mean_draft_len": 3.94
+    },
+    "adaptive": {
+      "runs": 18,
+      "tok_s_median": 1.768,
+      "acceptance": 0.718,
+      "mean_draft_len": 2.99
+    }
+  },
+  "by_task": {
+    "chat": {
+      "baseline": {
+        "runs": 6,
+        "tok_s_median": 3.512
+      },
+      "fixed": {
+        "runs": 6,
+        "tok_s_median": 1.333,
+        "acceptance": 0.483,
+        "mean_draft_len": 3.95
+      },
+      "adaptive": {
+        "runs": 6,
+        "tok_s_median": 1.667,
+        "acceptance": 0.597,
+        "mean_draft_len": 2.09
+      }
+    },
+    "code": {
+      "baseline": {
+        "runs": 6,
+        "tok_s_median": 3.554
+      },
+      "fixed": {
+        "runs": 6,
+        "tok_s_median": 1.871,
+        "acceptance": 0.768,
+        "mean_draft_len": 3.91
+      },
+      "adaptive": {
+        "runs": 6,
+        "tok_s_median": 1.768,
+        "acceptance": 0.714,
+        "mean_draft_len": 4.03
+      }
+    },
+    "summary": {
+      "baseline": {
+        "runs": 6,
+        "tok_s_median": 3.553
+      },
+      "fixed": {
+        "runs": 6,
+        "tok_s_median": 1.906,
+        "acceptance": 0.792,
+        "mean_draft_len": 3.95
+      },
+      "adaptive": {
+        "runs": 6,
+        "tok_s_median": 2.011,
+        "acceptance": 0.85,
+        "mean_draft_len": 3.53
+      }
+    }
+  },
+  "paired_speedup_median": {
+    "fixed_vs_baseline": 0.506,
+    "adaptive_vs_baseline": 0.5,
+    "adaptive_vs_fixed": 1.097
+  },
+  "verify_cost": {
+    "target_s_per_batch": {
+      "1": 0.286,
+      "2": 0.484,
+      "3": 0.659,
+      "4": 0.9,
+      "5": 1.038,
+      "6": 1.201,
+      "8": 1.558
+    },
+    "draft_s_per_token": 0.097,
+    "ceiling_speedup_full_accept": {
+      "1": 0.984,
+      "2": 1.007,
+      "3": 0.961,
+      "4": 1.003,
+      "5": 1.018,
+      "7": 1.023
+    }
+  }
+}

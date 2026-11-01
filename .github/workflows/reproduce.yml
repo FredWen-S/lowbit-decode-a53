@@ -1,0 +1,24 @@
+name: reproduce
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  analysis:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Rerun A53 analysis on committed raw data
+        working-directory: a53
+        run: |
+          python analyze_counters.py stat2
+          python analyze_energy.py
+          python analyze_symbols.py
+      - name: Rerun speculative-decoding summary
+        run: python spec/summarize_spec.py
+      - name: Results must match the committed JSON exactly
+        run: git diff --exit-code -- a53/*.json spec/*.json
